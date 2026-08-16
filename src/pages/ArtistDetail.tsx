@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { ARTISTS, getArtist, releasesByArtist, releasesByPerson } from '../data/catalogue'
 import ReleaseCard from '../components/catalogue/ReleaseCard'
-import Logo from '../components/ui/Logo'
+import ArtistImage from '../components/ui/ArtistImage'
 import Button from '../components/ui/Button'
 import { SectionHead } from '../components/ui/Section'
 import { ArrowIcon } from '../components/ui/Icon'
@@ -49,13 +49,7 @@ export default function ArtistDetail() {
             className="aspect-square overflow-hidden rounded-lg bg-cobalt-50 shadow-2xl shadow-cobalt-600/12 ring-1 ring-cobalt-600/10"
             data-reveal
           >
-            {artist.image ? (
-              <img src={artist.image} alt={artist.name} className="size-full object-cover" />
-            ) : (
-              <div className="grid size-full place-items-center bg-gradient-to-br from-cobalt-500 to-cobalt-700">
-                <Logo variant="mark" className="h-2/3 text-white/25" />
-              </div>
-            )}
+            <ArtistImage src={artist.image} alt={artist.name} />
           </div>
         </div>
 

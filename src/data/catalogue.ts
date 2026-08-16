@@ -353,7 +353,9 @@ export const ARTISTS: Artist[] = [
     role: 'Producer, DJ — founder',
     location: 'Auckland, Aotearoa New Zealand',
     onRoster: true,
-    image: 'https://geo-media.beatport.com/image_size/1400x1400/0dc61986-bccf-49d4-8fad-6b147ea8f327.jpg',
+    // Local file in /public. The Beatport URL that was here previously
+    // was their generic placeholder avatar, not a photograph.
+    image: 'artists/phully.jpg',
     bio: [
       'Paul Sweetman has been putting records out as Phully and DJ Phully since 2005, when "Daft Fader" landed on En:Vision Recordings at 130bpm of hard-edged breaks.',
       'The two decades since have moved through breakbeat, indie dance, tech house and — most recently — the slower, warmer organic house of "Amsterdub" on Altar Records\' Moonshadow Beats compilation. Remix work has run through Universal Music New Zealand, Filter Music and Deep And Under Records.',

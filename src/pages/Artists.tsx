@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import PageHeader from '../components/layout/PageHeader'
-import Logo from '../components/ui/Logo'
+import ArtistImage from '../components/ui/ArtistImage'
 import Button from '../components/ui/Button'
 import { ArrowIcon } from '../components/ui/Icon'
 import { ARTISTS, releasesByArtist, releasesByPerson } from '../data/catalogue'
@@ -32,18 +32,11 @@ export default function Artists() {
               >
                 <div className="panel h-full p-6 transition duration-500 hover:border-cobalt-600/40 hover:shadow-2xl hover:shadow-cobalt-600/15 sm:p-8">
                   <div className="aspect-4/3 overflow-hidden rounded-lg bg-cobalt-50 ring-1 ring-cobalt-600/10">
-                    {artist.image ? (
-                      <img
-                        src={artist.image}
-                        alt={artist.name}
-                        loading="lazy"
-                        className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="grid size-full place-items-center text-cobalt-300">
-                        <Logo variant="mark" className="h-3/5" />
-                      </div>
-                    )}
+                    <ArtistImage
+                      src={artist.image}
+                      alt={artist.name}
+                      className="transition-transform duration-700 group-hover:scale-105"
+                    />
                   </div>
 
                   <p className="eyebrow mt-7 text-cobalt-600">{artist.role}</p>

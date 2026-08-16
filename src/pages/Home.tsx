@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Logo from '../components/ui/Logo'
+import ArtistImage from '../components/ui/ArtistImage'
 import Button from '../components/ui/Button'
 import { SectionHead } from '../components/ui/Section'
 import ReleaseCard from '../components/catalogue/ReleaseCard'
@@ -234,18 +235,11 @@ export default function Home() {
           <div className="panel grid items-center gap-10 p-8 transition duration-500 hover:border-cobalt-600/35 hover:shadow-2xl hover:shadow-cobalt-600/15 sm:p-10 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <div className="aspect-square overflow-hidden rounded-lg bg-cobalt-50 ring-1 ring-cobalt-600/10">
-                {phully.image ? (
-                  <img
-                    src={phully.image}
-                    alt={phully.name}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="grid size-full place-items-center text-cobalt-300">
-                    <Logo variant="mark" className="h-2/3" />
-                  </div>
-                )}
+                <ArtistImage
+                  src={phully.image}
+                  alt={phully.name}
+                  className="transition-transform duration-700 group-hover:scale-105"
+                />
               </div>
             </div>
 
