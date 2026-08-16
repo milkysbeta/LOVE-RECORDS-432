@@ -47,12 +47,12 @@ function Toggle({ label, hint, icon, active, status, onEnable, onDisable }: Togg
         onClick={active ? onDisable : onEnable}
         disabled={blocked}
         aria-pressed={active}
-        className={`flex w-full items-center gap-4 rounded-lg border px-5 py-4 text-left transition-all duration-300 ${
+        className={`flex w-full items-center gap-4 rounded-sm px-5 py-4 text-left transition-all duration-300 ${
           active
-            ? 'border-cobalt-600 bg-cobalt-600 text-white shadow-lg shadow-cobalt-600/25'
+            ? 'border border-cobalt-600/70 bg-cobalt-600/85 text-white shadow-lg shadow-cobalt-600/25 backdrop-blur-xl'
             : blocked
-              ? 'cursor-not-allowed border-cobalt-600/12 text-ink-faint'
-              : 'border-cobalt-600/25 text-ink hover:border-cobalt-600/60 hover:bg-cobalt-50'
+              ? 'glass cursor-not-allowed text-ink-faint'
+              : 'glass text-ink hover:border-cobalt-600/60'
         }`}
       >
         <span

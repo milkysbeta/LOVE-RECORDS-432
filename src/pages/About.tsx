@@ -55,7 +55,7 @@ export default function About() {
 
         <div ref={markLayer} className="lg:col-span-5">
           <div className="lg:sticky lg:top-32" data-reveal>
-            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-lg bg-gradient-to-br from-cobalt-500 to-cobalt-800 shadow-2xl shadow-cobalt-600/25">
+            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-sm border border-cobalt-600/25 bg-gradient-to-br from-cobalt-500/80 to-cobalt-800/80 shadow-2xl shadow-cobalt-600/25 backdrop-blur-2xl">
               <Logo variant="mark" className="h-3/5 text-white/90" />
               <span className="eyebrow absolute bottom-6 left-6 text-white/70">
                 A = {TUNING.hz} Hz

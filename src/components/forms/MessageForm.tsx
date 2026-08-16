@@ -79,7 +79,7 @@ export default function MessageForm({ fields, mailto, subject, submitLabel = 'Se
   if (status === 'unconfigured') {
     return (
       <div
-        className="rounded-lg border border-cobalt-600/20 bg-cobalt-50/60 px-8 py-14 text-center"
+        className="rounded-sm border border-cobalt-600/20 bg-cobalt-50/60 px-8 py-14 text-center"
         role="status"
       >
         <h3 className="display-sm text-cobalt-700">Not quite open yet.</h3>
@@ -100,7 +100,7 @@ export default function MessageForm({ fields, mailto, subject, submitLabel = 'Se
   if (status === 'sent') {
     return (
       <div
-        className="rounded-lg border border-cobalt-600/20 bg-cobalt-50/60 px-8 py-14 text-center"
+        className="rounded-sm border border-cobalt-600/20 bg-cobalt-50/60 px-8 py-14 text-center"
         role="status"
       >
         <h3 className="display-sm text-cobalt-700">
@@ -126,7 +126,7 @@ export default function MessageForm({ fields, mailto, subject, submitLabel = 'Se
       {fields.map((field) => {
         const id = `field-${field.name}`
         const shared =
-          'w-full rounded-lg border border-cobalt-600/20 bg-white/80 px-4 py-3.5 text-base text-ink placeholder:text-ink-faint/70 transition focus:border-cobalt-600 focus:outline-none focus:ring-4 focus:ring-cobalt-600/12'
+          'glass w-full px-4 py-3.5 text-base text-ink placeholder:text-ink-faint/70 transition focus:border-cobalt-600 focus:outline-none focus:ring-4 focus:ring-cobalt-600/12'
 
         return (
           <div key={field.name}>

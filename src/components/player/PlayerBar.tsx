@@ -82,7 +82,7 @@ export default function PlayerBar() {
               <img
                 src={release.artwork}
                 alt=""
-                className="size-11 shrink-0 rounded-md object-cover shadow-sm sm:size-12"
+                className="size-11 shrink-0 rounded-sm object-cover shadow-sm sm:size-12"
                 loading="lazy"
               />
             )}

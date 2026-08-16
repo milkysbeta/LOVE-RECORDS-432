@@ -48,7 +48,7 @@ export default function BandcampEmbed({ embed, title, size = 'large' }: Props) {
       src={`https://bandcamp.com/EmbeddedPlayer/${params}/`}
       seamless
       loading="lazy"
-      className="w-full rounded-lg border border-cobalt-600/12"
+      className="w-full rounded-sm border border-cobalt-600/12"
       style={{ height: size === 'slim' ? 42 : 120 }}
     />
   )

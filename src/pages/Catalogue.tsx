@@ -62,7 +62,7 @@ export default function Catalogue() {
         <div className="mt-6 flex flex-wrap gap-2" data-reveal>
           <button
             onClick={() => setGenre(null)}
-            className={`rounded-md px-4 py-2 text-xs font-semibold transition ${
+            className={`rounded-sm px-4 py-2 text-xs font-semibold transition ${
               genre === null
                 ? 'bg-cobalt-600 text-white'
                 : 'border border-cobalt-600/20 text-ink-soft hover:border-cobalt-600/45 hover:text-cobalt-700'
@@ -74,7 +74,7 @@ export default function Catalogue() {
             <button
               key={g}
               onClick={() => setGenre(genre === g ? null : g)}
-              className={`rounded-md px-4 py-2 text-xs font-semibold transition ${
+              className={`rounded-sm px-4 py-2 text-xs font-semibold transition ${
                 genre === g
                   ? 'bg-cobalt-600 text-white'
                   : 'border border-cobalt-600/20 text-ink-soft hover:border-cobalt-600/45 hover:text-cobalt-700'
@@ -94,7 +94,7 @@ export default function Catalogue() {
           </div>
         ) : (
           <div
-            className="mt-14 rounded-lg border border-dashed border-cobalt-600/25 px-8 py-20 text-center"
+            className="glass mt-14 border-dashed px-8 py-20 text-center"
             data-reveal
           >
             <p className="display-sm text-ink">

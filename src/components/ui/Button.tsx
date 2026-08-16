@@ -23,7 +23,7 @@ const VARIANTS: Record<Variant, string> = {
 }
 
 const BASE =
-  'inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-sm font-semibold tracking-tight transition-all duration-300 active:scale-[0.98]'
+  'inline-flex items-center justify-center gap-2 rounded-sm px-6 py-3 text-sm font-semibold tracking-tight transition-all duration-300 active:scale-[0.98]'
 
 interface Props {
   children: ReactNode

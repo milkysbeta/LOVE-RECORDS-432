@@ -27,8 +27,11 @@ export default function ReleaseCard({ release, index = 0 }: Props) {
 
   return (
     <article data-reveal style={{ '--reveal-delay': `${index * 65}ms` } as React.CSSProperties}>
-      <Link to={`/release/${release.slug}`} className="group block">
-        <div className="relative aspect-square overflow-hidden rounded-lg bg-cobalt-50 shadow-sm ring-1 ring-cobalt-600/8 transition duration-500 group-hover:shadow-2xl group-hover:shadow-cobalt-600/15">
+      <Link
+        to={`/release/${release.slug}`}
+        className="panel-soft group block p-3 transition duration-500 hover:border-cobalt-600/40 hover:shadow-xl hover:shadow-cobalt-600/12"
+      >
+        <div className="relative aspect-square overflow-hidden rounded-sm bg-cobalt-50 shadow-sm ring-1 ring-cobalt-600/8 transition duration-500">
           {release.artwork ? (
             <img
               src={release.artwork}
@@ -66,7 +69,7 @@ export default function ReleaseCard({ release, index = 0 }: Props) {
           )}
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 px-1 pb-1">
           <div className="flex items-start justify-between gap-3">
             <h3 className="display-sm text-balance transition-colors duration-300 group-hover:text-cobalt-600">
               {release.title}

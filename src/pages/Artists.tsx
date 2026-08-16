@@ -31,7 +31,7 @@ export default function Artists() {
                 style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}
               >
                 <div className="panel h-full p-6 transition duration-500 hover:border-cobalt-600/40 hover:shadow-2xl hover:shadow-cobalt-600/15 sm:p-8">
-                  <div className="aspect-4/3 overflow-hidden rounded-lg bg-cobalt-50 ring-1 ring-cobalt-600/10">
+                  <div className="aspect-4/3 overflow-hidden rounded-sm bg-cobalt-50 ring-1 ring-cobalt-600/10">
                     <ArtistImage
                       src={artist.image}
                       alt={artist.name}
@@ -71,7 +71,7 @@ export default function Artists() {
                 <Link
                   key={a.slug}
                   to={`/artists/${a.slug}`}
-                  className="group inline-flex items-center gap-2 rounded-md border border-cobalt-600/20 px-5 py-2.5 text-sm font-medium transition hover:border-cobalt-600/50 hover:bg-cobalt-50"
+                  className="group inline-flex items-center gap-2 rounded-sm border border-cobalt-600/20 px-5 py-2.5 text-sm font-medium transition hover:border-cobalt-600/50 hover:bg-cobalt-50"
                 >
                   {a.name}
                   <span className="text-xs text-ink-faint">
@@ -83,7 +83,7 @@ export default function Artists() {
           </div>
         )}
 
-        <div className="mt-24 rounded-lg border border-dashed border-cobalt-600/25 px-8 py-16 text-center" data-reveal>
+        <div className="glass mt-24 border-dashed px-8 py-16 text-center" data-reveal>
           <h2 className="display-sm">The roster has room.</h2>
           <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
             If you make electronic music and you are curious about 432, that is enough of a reason
