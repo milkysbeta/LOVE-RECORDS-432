@@ -27,11 +27,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      # enablement: true turns Pages on via the API using the workflow's
-      # own token, so nobody has to visit Settings → Pages first.
+      # Pages must already be enabled with Source = GitHub Actions.
+      # `enablement: true` was tried here and failed: turning Pages on via
+      # the API needs a token permission the default GITHUB_TOKEN does not
+      # reliably get, so it is a one-time manual setting instead.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - run: npm ci
 
