@@ -13,7 +13,10 @@
   /* Darkened from the original greys: legible body copy has to win
      against a moving field, not just against flat paper. */
   --color-ink-soft: #333c55;
-  --color-ink-faint: #626b84;
+  /* Thin panels let more of the field through, so the metadata grey has
+     to be darker than it would need to be on flat paper. Measured to
+     clear AA against the densest part of the Chladni figure. */
+  --color-ink-faint: #4b5471;
 
   /* — light cobalt ramp — */
   --color-cobalt-50: #eef3ff;
@@ -169,22 +172,23 @@
  *  pattern still reads through it as texture rather than noise.
  * ----------------------------------------------------------------- */
 @utility panel {
-  background-color: color-mix(in oklab, #fff 62%, transparent);
-  -webkit-backdrop-filter: blur(36px) saturate(1.6);
-  backdrop-filter: blur(36px) saturate(1.6);
-  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 14%, transparent);
+  background-color: color-mix(in oklab, #fff 44%, transparent);
+  -webkit-backdrop-filter: blur(52px) saturate(1.8);
+  backdrop-filter: blur(52px) saturate(1.8);
+  /* The edge carries more of the definition as the fill gets thinner. */
+  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 20%, transparent);
   border-radius: 0.625rem;
   box-shadow:
     0 1px 2px rgba(10, 15, 31, 0.03),
-    0 18px 50px -22px rgba(47, 95, 224, 0.18);
+    0 22px 60px -26px rgba(47, 95, 224, 0.22);
 }
 
 /* Lighter weight for cards that already sit on their own artwork. */
 @utility panel-soft {
-  background-color: color-mix(in oklab, #fff 48%, transparent);
-  -webkit-backdrop-filter: blur(28px) saturate(1.4);
-  backdrop-filter: blur(28px) saturate(1.4);
-  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 11%, transparent);
+  background-color: color-mix(in oklab, #fff 32%, transparent);
+  -webkit-backdrop-filter: blur(42px) saturate(1.5);
+  backdrop-filter: blur(42px) saturate(1.5);
+  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 16%, transparent);
   border-radius: 0.5rem;
 }
 
@@ -244,6 +248,28 @@
   [data-reveal='in'] {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ *  Blur is the most expensive thing on the page after the field itself,
+ *  and backdrop-filter cost scales with both radius and the area behind
+ *  it. Full-width panels at 52px will cost a phone real frames, so the
+ *  radius comes down on small screens — the fill stays identical, so the
+ *  measured contrast is unchanged.
+ *
+ *  Deliberately unlayered: Tailwind's @utility output lives in the
+ *  utilities layer, and unlayered rules win over every layer regardless
+ *  of specificity.
+ * ------------------------------------------------------------------ */
+@media (max-width: 48rem) {
+  .panel {
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
+    backdrop-filter: blur(24px) saturate(1.8);
+  }
+  .panel-soft {
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    backdrop-filter: blur(18px) saturate(1.5);
   }
 }
 
