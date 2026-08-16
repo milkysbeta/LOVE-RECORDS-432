@@ -26,8 +26,16 @@ import { asset } from '../../lib/assets'
  *  when someone actually engages with it.
  * ------------------------------------------------------------------ */
 
-/** 0 = plain greyscale, 1 = fully cobalt-toned. */
-const TINT_STRENGTH = 0.62
+/**
+ * Blue-grey tone applied as a filter chain rather than a translucent
+ * overlay, so the photograph stays fully opaque — nothing shows through
+ * it and it never picks up whatever is behind the card.
+ *
+ * grayscale strips the original colour, sepia lays down a single tone to
+ * rotate, hue-rotate carries that tone round to cobalt, and saturate
+ * sets how far from neutral grey it lands.
+ */
+const DUOTONE = 'grayscale(1) sepia(0.55) hue-rotate(185deg) saturate(2.4) contrast(1.05)'
 
 interface Props {
   /** Path within /public, or an absolute URL. Undefined renders the mark. */
@@ -63,25 +71,20 @@ export default function ArtistImage({
   }
 
   return (
-    <div className={`relative size-full overflow-hidden ${className}`}>
+    // Solid backing so nothing behind the card can show through while the
+    // photograph is still decoding.
+    <div className={`relative size-full overflow-hidden bg-cobalt-100 ${className}`}>
       <img
         src={resolved}
         alt={alt}
         loading="lazy"
         onError={() => setFailed(true)}
-        className={`size-full object-cover transition-[filter] duration-700 ${
-          duotone ? 'grayscale contrast-[1.06] group-hover:grayscale-0' : ''
-        }`}
-        style={{ objectPosition: position }}
+        className="size-full object-cover transition-[filter] duration-700 group-hover:[filter:none]"
+        style={{
+          objectPosition: position,
+          filter: duotone ? DUOTONE : undefined,
+        }}
       />
-
-      {duotone && (
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-cobalt-600 transition-opacity duration-700 group-hover:opacity-0"
-          style={{ mixBlendMode: 'color', opacity: TINT_STRENGTH }}
-        />
-      )}
     </div>
   )
 }

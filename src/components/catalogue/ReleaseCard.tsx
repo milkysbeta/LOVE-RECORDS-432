@@ -45,9 +45,6 @@ export default function ReleaseCard({ release, index = 0 }: Props) {
             </div>
           )}
 
-          {/* Cobalt wash on hover keeps the grid feeling like one system. */}
-          <div className="pointer-events-none absolute inset-0 bg-cobalt-600/0 transition-colors duration-500 group-hover:bg-cobalt-600/12" />
-
           {playable.length > 0 && (
             <button
               onClick={onPlay}
