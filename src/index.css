@@ -171,39 +171,58 @@
  *  field. Opaque enough to guarantee contrast, blurred enough that the
  *  pattern still reads through it as texture rather than noise.
  * ----------------------------------------------------------------- */
+/* ------------------------------------------------------------------ *
+ *  One material for every surface that is not cobalt.
+ *
+ *  Panels, cards, inputs, toggles, list rows and empty states all take
+ *  the same fill and the same blur. Having had three tiers, the mismatch
+ *  was the thing you noticed — a large panel and the input inside it
+ *  reading as different materials looks like a bug, not a hierarchy.
+ *  Depth now comes from radius, shadow and border alone.
+ *
+ *  Change these four values and every surface on the site moves together.
+ * ------------------------------------------------------------------ */
+@theme {
+  --surface-fill: 42%;
+  --surface-blur: 44px;
+  --surface-saturate: 1.7;
+  --surface-edge: 18%;
+}
+
 @utility panel {
-  background-color: color-mix(in oklab, #fff 44%, transparent);
-  -webkit-backdrop-filter: blur(52px) saturate(1.8);
-  backdrop-filter: blur(52px) saturate(1.8);
-  /* The edge carries more of the definition as the fill gets thinner. */
-  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 20%, transparent);
+  background-color: color-mix(in oklab, #fff var(--surface-fill), transparent);
+  -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
+  backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
+  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) var(--surface-edge), transparent);
   border-radius: 0.375rem;
   box-shadow:
     0 1px 2px rgba(10, 15, 31, 0.03),
     0 22px 60px -26px rgba(47, 95, 224, 0.22);
 }
 
-/* Lighter weight for cards that already sit on their own artwork. */
+/** Same material as `panel`, tighter corner, no lift. For cards. */
 @utility panel-soft {
-  background-color: color-mix(in oklab, #fff 32%, transparent);
-  -webkit-backdrop-filter: blur(42px) saturate(1.5);
-  backdrop-filter: blur(42px) saturate(1.5);
-  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 16%, transparent);
+  background-color: color-mix(in oklab, #fff var(--surface-fill), transparent);
+  -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
+  backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
+  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) var(--surface-edge), transparent);
   border-radius: 0.25rem;
 }
 
-/* ------------------------------------------------------------------ *
- *  Glass — the small-control counterpart to `panel`.
- *
- *  Inputs, toggles, list rows and empty states are boxes too, and a
- *  solid one sitting inside a translucent panel looks like a mistake.
- *  Same material, less of it, so nested surfaces still read as layers.
- * ------------------------------------------------------------------ */
+/** The same material with no border or radius, for full-bleed chrome:
+    the nav bar, the footer, the player. */
+@utility surface {
+  background-color: color-mix(in oklab, #fff var(--surface-fill), transparent);
+  -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
+  backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
+}
+
+/** Same material again, for inputs and small controls. */
 @utility glass {
-  background-color: color-mix(in oklab, #fff 34%, transparent);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  backdrop-filter: blur(20px) saturate(1.5);
-  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 18%, transparent);
+  background-color: color-mix(in oklab, #fff var(--surface-fill), transparent);
+  -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
+  backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
+  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) var(--surface-edge), transparent);
   border-radius: 0.25rem;
 }
 
@@ -278,23 +297,12 @@
  *  of specificity.
  * ------------------------------------------------------------------ */
 @media (max-width: 48rem) {
-  .panel {
-    -webkit-backdrop-filter: blur(24px) saturate(1.8);
-    backdrop-filter: blur(24px) saturate(1.8);
-  }
-  /* Release cards repeat — a catalogue page carries ~19 blur layers and
-     two viewports of blurred area, and cost is per layer. These are the
-     one surface where the blur is nearly all hidden behind opaque
-     artwork anyway, so on phones they keep the translucency and lose the
-     blur, with a denser fill to compensate. */
-  .panel-soft {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    background-color: color-mix(in oklab, #fff 62%, transparent);
-  }
-  .glass {
-    -webkit-backdrop-filter: blur(12px) saturate(1.5);
-    backdrop-filter: blur(12px) saturate(1.5);
+  :root {
+    /* Uniformly cheaper rather than exempting one surface: a catalogue
+       page carries ~19 blur layers over two viewports, and cost scales
+       with radius as well as layer count. Everything stays the same
+       material as everything else — just a smaller radius. */
+    --surface-blur: 16px;
   }
 }
 

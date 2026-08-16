@@ -31,9 +31,7 @@ export default function Nav() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-40 transition-all duration-500 ${
-          scrolled
-            ? 'border-b border-cobalt-600/10 bg-paper/80 backdrop-blur-xl'
-            : 'border-b border-transparent'
+          scrolled ? 'surface border-b border-cobalt-600/10' : 'border-b border-transparent'
         }`}
       >
         <nav className="shell flex items-center justify-between gap-6 py-4">

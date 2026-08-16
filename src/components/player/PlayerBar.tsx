@@ -47,7 +47,7 @@ export default function PlayerBar() {
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50">
-      <div className="border-t border-cobalt-600/15 bg-white/85 backdrop-blur-xl">
+      <div className="surface border-t border-cobalt-600/15">
         {/* Scrub bar sits flush on the top edge of the player. */}
         <label className="group relative block h-1.5 cursor-pointer">
           <span className="sr-only">Seek</span>
