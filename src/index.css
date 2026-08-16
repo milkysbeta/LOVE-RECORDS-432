@@ -1,0 +1,201 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ *  LOVE 432 RECORDS — design tokens
+ *  Palette: white / paper + light cobalt. Ink is reserved for the mark
+ *  and body copy. Cobalt carries hierarchy, never decoration.
+ * ------------------------------------------------------------------ */
+@theme {
+  /* — surfaces — */
+  --color-paper: #fbfcff;
+  --color-paper-deep: #f2f5fd;
+  --color-ink: #0a0f1f;
+  --color-ink-soft: #414a63;
+  --color-ink-faint: #8b93a8;
+
+  /* — light cobalt ramp — */
+  --color-cobalt-50: #eef3ff;
+  --color-cobalt-100: #dce6ff;
+  --color-cobalt-200: #bccdff;
+  --color-cobalt-300: #93aeff;
+  --color-cobalt-400: #6b8cfa;
+  --color-cobalt-500: #4a6ff0;
+  --color-cobalt-600: #2f5fe0;
+  --color-cobalt-700: #2148b8;
+  --color-cobalt-800: #1b3a92;
+  --color-cobalt-900: #172a6b;
+
+  /* — type — */
+  --font-display: 'Clash Display', 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Satoshi', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+
+  /* — motion — */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ------------------------------------------------------------------ *
+ *  Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Lenis owns the scroll; opt out of native smooth behaviour. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  ::selection {
+    background-color: var(--color-cobalt-600);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cobalt-600);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Thin cobalt scrollbar — Firefox + WebKit */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-cobalt-300) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-cobalt-200);
+    border-radius: 99px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-cobalt-400);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ *  Utilities
+ * ------------------------------------------------------------------ */
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3rem, 11vw, 10.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+}
+
+@utility display-lg {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.25rem, 6.2vw, 5.25rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+
+@utility display-md {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 3.6vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+@utility display-sm {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Small all-caps label with wide tracking — used for catalogue numbers,
+   section eyebrows and metadata rows. */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+@utility shell {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 4.5rem);
+}
+
+/* The logo PNG has no colour of its own — it is used as an alpha mask so
+   the mark can take any brand colour. `currentColor` drives the fill. */
+@utility logo-mask {
+  background-color: currentColor;
+  -webkit-mask-image: var(--logo-src);
+  mask-image: var(--logo-src);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* Hairline rule in cobalt at low opacity — the site's main divider. */
+@utility rule {
+  border-top: 1px solid color-mix(in oklab, var(--color-cobalt-600) 16%, transparent);
+}
+
+/* ------------------------------------------------------------------ *
+ *  Reveal-on-scroll — driven by IntersectionObserver in useReveal()
+ * ------------------------------------------------------------------ */
+@layer components {
+  [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    transition:
+      opacity 0.9s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  [data-reveal='in'] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
