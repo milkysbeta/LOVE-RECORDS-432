@@ -89,11 +89,11 @@ export default function About() {
 
       {/* ---- how we work ---- */}
       <section className="shell mt-32">
-        <h2 className="display-md max-w-2xl text-balance" data-reveal>
-          How the label works
-        </h2>
+        <div className="panel px-6 py-7 sm:px-9" data-reveal>
+          <h2 className="display-md max-w-2xl text-balance">How the label works</h2>
+        </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="mt-6 grid gap-6 md:grid-cols-3">
           {[
             [
               'Tuned, then mastered',

@@ -35,8 +35,10 @@ export default function Catalogue() {
       />
 
       <section className="shell mt-14">
-        {/* Scope */}
-        <div className="rule flex flex-wrap items-center gap-x-8 gap-y-3 pt-6" data-reveal>
+        {/* Filters share one panel so the controls read as a single object
+            rather than loose chips floating on the field. */}
+        <div className="panel px-6 py-6 sm:px-8" data-reveal>
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
           {SCOPES.map((s) => (
             <button
               key={s.id}
@@ -59,7 +61,7 @@ export default function Catalogue() {
         </div>
 
         {/* Genre */}
-        <div className="mt-6 flex flex-wrap gap-2" data-reveal>
+        <div className="mt-6 flex flex-wrap gap-2">
           <button
             onClick={() => setGenre(null)}
             className={`rounded-sm px-4 py-2 text-xs font-semibold transition ${
@@ -83,6 +85,7 @@ export default function Catalogue() {
               {g}
             </button>
           ))}
+        </div>
         </div>
 
         {/* Grid */}

@@ -64,8 +64,8 @@ export default function Artists() {
         </div>
 
         {aliases.length > 0 && (
-          <div className="mt-20" data-reveal>
-            <h2 className="eyebrow rule pt-6 text-ink-faint">Also records as</h2>
+          <div className="panel mt-20 px-6 py-7 sm:px-9" data-reveal>
+            <h2 className="eyebrow text-ink-faint">Also records as</h2>
             <div className="mt-6 flex flex-wrap gap-3">
               {aliases.map((a) => (
                 <Link
