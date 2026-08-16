@@ -28,7 +28,7 @@ export default function ReleaseCard({ release, index = 0 }: Props) {
   return (
     <article data-reveal style={{ '--reveal-delay': `${index * 65}ms` } as React.CSSProperties}>
       <Link to={`/release/${release.slug}`} className="group block">
-        <div className="relative aspect-square overflow-hidden rounded-xl bg-cobalt-50 shadow-sm ring-1 ring-cobalt-600/8 transition duration-500 group-hover:shadow-2xl group-hover:shadow-cobalt-600/15">
+        <div className="relative aspect-square overflow-hidden rounded-lg bg-cobalt-50 shadow-sm ring-1 ring-cobalt-600/8 transition duration-500 group-hover:shadow-2xl group-hover:shadow-cobalt-600/15">
           {release.artwork ? (
             <img
               src={release.artwork}

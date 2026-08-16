@@ -135,11 +135,18 @@
    section eyebrows and metadata rows. */
 @utility eyebrow {
   font-family: var(--font-sans);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.78rem;
   line-height: 1;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+/* Small metadata text. Below ~15px, weight does more for legibility over
+   a busy background than size does. */
+@utility meta {
+  font-weight: 600;
+  letter-spacing: 0.005em;
 }
 
 /* ---- body copy -------------------------------------------------- *
@@ -162,23 +169,23 @@
  *  pattern still reads through it as texture rather than noise.
  * ----------------------------------------------------------------- */
 @utility panel {
-  background-color: color-mix(in oklab, #fff 82%, transparent);
-  -webkit-backdrop-filter: blur(22px) saturate(1.4);
-  backdrop-filter: blur(22px) saturate(1.4);
+  background-color: color-mix(in oklab, #fff 62%, transparent);
+  -webkit-backdrop-filter: blur(36px) saturate(1.6);
+  backdrop-filter: blur(36px) saturate(1.6);
   border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 14%, transparent);
-  border-radius: 1.5rem;
+  border-radius: 0.625rem;
   box-shadow:
     0 1px 2px rgba(10, 15, 31, 0.03),
-    0 18px 50px -22px rgba(47, 95, 224, 0.22);
+    0 18px 50px -22px rgba(47, 95, 224, 0.18);
 }
 
 /* Lighter weight for cards that already sit on their own artwork. */
 @utility panel-soft {
-  background-color: color-mix(in oklab, #fff 68%, transparent);
-  -webkit-backdrop-filter: blur(16px) saturate(1.25);
-  backdrop-filter: blur(16px) saturate(1.25);
+  background-color: color-mix(in oklab, #fff 48%, transparent);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4);
+  backdrop-filter: blur(28px) saturate(1.4);
   border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 11%, transparent);
-  border-radius: 1.25rem;
+  border-radius: 0.5rem;
 }
 
 /* Standard interior padding for a panel wrapping running text. */
@@ -216,6 +223,15 @@
  *  Reveal-on-scroll — driven by IntersectionObserver in useReveal()
  * ------------------------------------------------------------------ */
 @layer components {
+  /* Global floor on small-text weight. Sits in the components layer, so
+     an explicit font-* utility still overrides it where needed. */
+  .text-sm {
+    font-weight: 500;
+  }
+  .text-xs {
+    font-weight: 600;
+  }
+
   [data-reveal] {
     opacity: 0;
     transform: translate3d(0, 28px, 0);

@@ -47,7 +47,7 @@ function Toggle({ label, hint, icon, active, status, onEnable, onDisable }: Togg
         onClick={active ? onDisable : onEnable}
         disabled={blocked}
         aria-pressed={active}
-        className={`flex w-full items-center gap-4 rounded-2xl border px-5 py-4 text-left transition-all duration-300 ${
+        className={`flex w-full items-center gap-4 rounded-lg border px-5 py-4 text-left transition-all duration-300 ${
           active
             ? 'border-cobalt-600 bg-cobalt-600 text-white shadow-lg shadow-cobalt-600/25'
             : blocked

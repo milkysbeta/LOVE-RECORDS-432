@@ -51,6 +51,7 @@ const vertexShader = /* glsl */ `
   uniform float uJitter;
   uniform float uSize;
   uniform float uScale;
+  uniform float uDpr;
   uniform vec2  uPointer;
 
   // Live audio, 0–1 each.
@@ -118,7 +119,12 @@ const vertexShader = /* glsl */ `
     gl_Position = projectionMatrix * mv;
 
     vShade = rad;
-    gl_PointSize = uSize * (1.0 + z + uLevel * 1.3) * (300.0 / max(-mv.z, 0.001));
+
+    // Grains of sand, not discs. The perspective divisor is calibrated
+    // against the camera distance (~6 world units): a larger constant
+    // here blows every particle up until 70k of them merge into a solid
+    // field instead of tracing the nodal lines.
+    gl_PointSize = uSize * uDpr * (9.0 / max(-mv.z, 0.001)) * (1.0 + z + uLevel * 1.3);
   }
 `
 
@@ -194,8 +200,9 @@ function Field({ progressRef, tiltRef, reducedMotion, drive, baseOpacity }: Fiel
       uM: { value: MODES[0][0] },
       uN: { value: MODES[0][1] },
       uJitter: { value: 0.012 },
-      uSize: { value: 1.5 },
+      uSize: { value: 1.35 },
       uScale: { value: 5 },
+      uDpr: { value: 1 },
       uPointer: { value: new THREE.Vector2(0, 0) },
       uLevel: { value: 0 },
       uBass: { value: 0 },
@@ -271,6 +278,7 @@ function Field({ progressRef, tiltRef, reducedMotion, drive, baseOpacity }: Fiel
 
     // Fill the viewport regardless of aspect ratio, breathing on bass.
     mat.uniforms.uScale.value = Math.max(viewport.width, viewport.height) * (0.62 + bass * 0.03)
+    mat.uniforms.uDpr.value = state.gl.getPixelRatio()
   })
 
   return (
@@ -338,7 +346,7 @@ export default function ChladniField({
           tiltRef={tiltRef}
           reducedMotion={reducedMotion}
           drive={drive}
-          baseOpacity={bare ? 0.85 : 0.55}
+          baseOpacity={bare ? 0.95 : 0.8}
         />
       </Canvas>
 
@@ -351,7 +359,7 @@ export default function ChladniField({
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse 80% 72% at 50% 42%, rgba(251,252,255,0.95) 0%, rgba(251,252,255,0.80) 38%, rgba(251,252,255,0.42) 62%, rgba(251,252,255,0) 88%)',
+              'radial-gradient(ellipse 78% 68% at 50% 42%, rgba(251,252,255,0.80) 0%, rgba(251,252,255,0.58) 40%, rgba(251,252,255,0.25) 66%, rgba(251,252,255,0) 88%)',
           }}
         />
       )}

@@ -55,7 +55,7 @@ export default function ReleaseDetail() {
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-28">
             <div
-              className="relative aspect-square overflow-hidden rounded-2xl bg-cobalt-50 shadow-2xl shadow-cobalt-600/12 ring-1 ring-cobalt-600/10"
+              className="relative aspect-square overflow-hidden rounded-lg bg-cobalt-50 shadow-2xl shadow-cobalt-600/12 ring-1 ring-cobalt-600/10"
               data-reveal
             >
               {release.artwork ? (

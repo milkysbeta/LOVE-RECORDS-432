@@ -46,7 +46,7 @@ export default function ArtistDetail() {
       <header className="shell mt-10 grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
           <div
-            className="aspect-square overflow-hidden rounded-2xl bg-cobalt-50 shadow-2xl shadow-cobalt-600/12 ring-1 ring-cobalt-600/10"
+            className="aspect-square overflow-hidden rounded-lg bg-cobalt-50 shadow-2xl shadow-cobalt-600/12 ring-1 ring-cobalt-600/10"
             data-reveal
           >
             {artist.image ? (

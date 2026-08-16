@@ -142,7 +142,7 @@ export default function Home() {
             {/* Empty catalogue slot rendered as a real object, not a
                 shrug — cobalt plate with the mark ghosted into it. */}
             <div className="lg:col-span-5">
-              <div className="relative grid aspect-square place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-cobalt-500 to-cobalt-700 shadow-2xl shadow-cobalt-600/25">
+              <div className="relative grid aspect-square place-items-center overflow-hidden rounded-lg bg-gradient-to-br from-cobalt-500 to-cobalt-700 shadow-2xl shadow-cobalt-600/25">
                 <Logo variant="mark" className="h-2/3 text-white/22" />
                 <span className="eyebrow absolute bottom-5 left-5 text-white/80">LR001</span>
                 <span className="eyebrow absolute right-5 top-5 text-white/60">Forthcoming</span>
@@ -233,7 +233,7 @@ export default function Home() {
         <Link to={`/artists/${phully.slug}`} className="group mt-12 block" data-reveal>
           <div className="panel grid items-center gap-10 p-8 transition duration-500 hover:border-cobalt-600/35 hover:shadow-2xl hover:shadow-cobalt-600/15 sm:p-10 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <div className="aspect-square overflow-hidden rounded-xl bg-cobalt-50 ring-1 ring-cobalt-600/10">
+              <div className="aspect-square overflow-hidden rounded-lg bg-cobalt-50 ring-1 ring-cobalt-600/10">
                 {phully.image ? (
                   <img
                     src={phully.image}
@@ -270,7 +270,7 @@ export default function Home() {
        * ============================================================ */}
       <section className="shell mt-32 lg:mt-48">
         <div
-          className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-cobalt-600 to-cobalt-800 px-8 py-16 text-white sm:px-14 sm:py-20"
+          className="relative overflow-hidden rounded-lg bg-gradient-to-br from-cobalt-600 to-cobalt-800 px-8 py-16 text-white sm:px-14 sm:py-20"
           data-reveal
         >
           <Logo

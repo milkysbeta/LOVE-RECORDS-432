@@ -94,7 +94,7 @@ export default function Catalogue() {
           </div>
         ) : (
           <div
-            className="mt-14 rounded-2xl border border-dashed border-cobalt-600/25 px-8 py-20 text-center"
+            className="mt-14 rounded-lg border border-dashed border-cobalt-600/25 px-8 py-20 text-center"
             data-reveal
           >
             <p className="display-sm text-ink">

@@ -93,7 +93,7 @@ export default function Resonate() {
               <li key={`${release.id}-${track.id}`}>
                 <button
                   onClick={() => play({ track, release }, queue)}
-                  className={`group flex w-full items-center gap-4 rounded-xl border px-4 py-3 text-left transition ${
+                  className={`group flex w-full items-center gap-4 rounded-lg border px-4 py-3 text-left transition ${
                     active
                       ? 'border-cobalt-600/50 bg-cobalt-50'
                       : 'border-transparent hover:border-cobalt-600/20 hover:bg-white/70'
