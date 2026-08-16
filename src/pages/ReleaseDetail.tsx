@@ -170,7 +170,7 @@ export default function ReleaseDetail() {
                     <Link
                       key={s}
                       to={`/artists/${s}`}
-                      className="group inline-flex items-center gap-2 rounded-full border border-cobalt-600/20 px-5 py-2.5 text-sm transition hover:border-cobalt-600/50 hover:bg-cobalt-50"
+                      className="group inline-flex items-center gap-2 rounded-md border border-cobalt-600/20 px-5 py-2.5 text-sm font-medium transition hover:border-cobalt-600/50 hover:bg-cobalt-50"
                     >
                       {artist.name}
                       <ArrowIcon className="size-3.5 text-cobalt-600 transition-transform group-hover:translate-x-0.5" />

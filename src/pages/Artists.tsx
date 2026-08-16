@@ -71,7 +71,7 @@ export default function Artists() {
                 <Link
                   key={a.slug}
                   to={`/artists/${a.slug}`}
-                  className="group inline-flex items-center gap-2 rounded-full border border-cobalt-600/20 px-5 py-2.5 text-sm transition hover:border-cobalt-600/50 hover:bg-cobalt-50"
+                  className="group inline-flex items-center gap-2 rounded-md border border-cobalt-600/20 px-5 py-2.5 text-sm font-medium transition hover:border-cobalt-600/50 hover:bg-cobalt-50"
                 >
                   {a.name}
                   <span className="text-xs text-ink-faint">

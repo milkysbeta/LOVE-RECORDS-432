@@ -283,7 +283,8 @@ export default function Home() {
             </p>
             <Button
               to="/demos"
-              className="mt-10 bg-white text-cobalt-700 shadow-none hover:bg-cobalt-50"
+              variant="invert"
+              className="mt-10"
             >
               Read the demo policy
             </Button>

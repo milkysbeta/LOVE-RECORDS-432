@@ -48,7 +48,7 @@ export default function Catalogue() {
             >
               {s.label}
               <span
-                className={`rounded-full px-1.5 py-0.5 font-mono text-[0.6rem] transition-colors ${
+                className={`rounded-sm px-1.5 py-0.5 font-mono text-[0.65rem] font-semibold transition-colors ${
                   scope === s.id ? 'bg-cobalt-600 text-white' : 'bg-cobalt-600/10 text-ink-faint'
                 }`}
               >
@@ -62,7 +62,7 @@ export default function Catalogue() {
         <div className="mt-6 flex flex-wrap gap-2" data-reveal>
           <button
             onClick={() => setGenre(null)}
-            className={`rounded-full px-4 py-2 text-xs font-medium transition ${
+            className={`rounded-md px-4 py-2 text-xs font-semibold transition ${
               genre === null
                 ? 'bg-cobalt-600 text-white'
                 : 'border border-cobalt-600/20 text-ink-soft hover:border-cobalt-600/45 hover:text-cobalt-700'
@@ -74,7 +74,7 @@ export default function Catalogue() {
             <button
               key={g}
               onClick={() => setGenre(genre === g ? null : g)}
-              className={`rounded-full px-4 py-2 text-xs font-medium transition ${
+              className={`rounded-md px-4 py-2 text-xs font-semibold transition ${
                 genre === g
                   ? 'bg-cobalt-600 text-white'
                   : 'border border-cobalt-600/20 text-ink-soft hover:border-cobalt-600/45 hover:text-cobalt-700'
