@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Logo from '../ui/Logo'
 import { ExternalIcon } from '../ui/Icon'
-import { EMAIL, LABEL_NAME, LOCATION, NAV, SOCIALS, TUNING } from '../../data/site'
+import { EMAIL, HAS_EMAIL, LABEL_NAME, LOCATION, NAV, SOCIALS, TUNING } from '../../data/site'
 
 export default function Footer() {
   return (
@@ -57,22 +57,27 @@ export default function Footer() {
 
             <h2 className="eyebrow mt-8 text-ink-faint">Get in touch</h2>
             <ul className="mt-5 space-y-2.5">
-              <li>
-                <a
-                  href={`mailto:${EMAIL.general}`}
-                  className="text-sm text-ink-soft transition hover:text-cobalt-600"
-                >
-                  {EMAIL.general}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`mailto:${EMAIL.demos}`}
-                  className="text-sm text-ink-soft transition hover:text-cobalt-600"
-                >
-                  {EMAIL.demos}
-                </a>
-              </li>
+              {HAS_EMAIL ? (
+                Array.from(new Set([EMAIL.general, EMAIL.demos].filter(Boolean))).map((address) => (
+                  <li key={address}>
+                    <a
+                      href={`mailto:${address}`}
+                      className="text-sm text-ink-soft transition hover:text-cobalt-600"
+                    >
+                      {address}
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <li>
+                  <Link
+                    to="/contact"
+                    className="text-sm text-ink-soft transition hover:text-cobalt-600"
+                  >
+                    Contact form
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

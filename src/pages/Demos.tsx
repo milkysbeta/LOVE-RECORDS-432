@@ -57,18 +57,20 @@ export default function Demos() {
             ))}
           </ol>
 
-          <div className="rule mt-12 pt-7" data-reveal>
-            <p className="text-sm leading-relaxed text-ink-soft">
-              Prefer plain email? Send it to{' '}
-              <a
-                href={`mailto:${EMAIL.demos}`}
-                className="text-cobalt-600 underline-offset-4 hover:underline"
-              >
-                {EMAIL.demos}
-              </a>
-              .
-            </p>
-          </div>
+          {EMAIL.demos && (
+            <div className="rule mt-12 pt-7" data-reveal>
+              <p className="text-sm leading-relaxed text-ink-soft">
+                Prefer plain email? Send it to{' '}
+                <a
+                  href={`mailto:${EMAIL.demos}`}
+                  className="text-cobalt-600 underline-offset-4 hover:underline"
+                >
+                  {EMAIL.demos}
+                </a>
+                .
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="lg:col-span-7">

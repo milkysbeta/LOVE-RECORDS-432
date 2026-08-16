@@ -25,13 +25,13 @@ export interface FieldDef {
 
 interface Props {
   fields: FieldDef[]
-  /** Mailbox used for the mailto fallback. */
-  mailto: string
+  /** Mailbox for the mailto fallback. Null while the label has no inbox. */
+  mailto: string | null
   subject: string
   submitLabel?: string
 }
 
-type Status = 'idle' | 'sending' | 'sent' | 'error'
+type Status = 'idle' | 'sending' | 'sent' | 'error' | 'unconfigured'
 
 export default function MessageForm({ fields, mailto, subject, submitLabel = 'Send' }: Props) {
   const [values, setValues] = useState<Record<string, string>>({})
@@ -48,7 +48,14 @@ export default function MessageForm({ fields, mailto, subject, submitLabel = 'Se
     e.preventDefault()
     setStatus('sending')
 
-    if (!FORM_ENDPOINT) {
+    if (!FORM_ENDPOINT && !mailto) {
+      // No inbox and no form service — say so plainly rather than
+      // pretending the message went somewhere.
+      setStatus('unconfigured')
+      return
+    }
+
+    if (!FORM_ENDPOINT && mailto) {
       // Fallback: hand off to the visitor's mail client.
       const href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildBody())}`
       window.location.href = href
@@ -67,6 +74,27 @@ export default function MessageForm({ fields, mailto, subject, submitLabel = 'Se
     } catch {
       setStatus('error')
     }
+  }
+
+  if (status === 'unconfigured') {
+    return (
+      <div
+        className="rounded-2xl border border-cobalt-600/20 bg-cobalt-50/60 px-8 py-14 text-center"
+        role="status"
+      >
+        <h3 className="display-sm text-cobalt-700">Not quite open yet.</h3>
+        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
+          The label inbox is still being set up, so this form has nowhere to send to. Check back
+          shortly — nothing you typed has been lost, it is still on the previous screen.
+        </p>
+        <button
+          onClick={() => setStatus('idle')}
+          className="eyebrow mt-8 text-cobalt-600 hover:underline"
+        >
+          Back to the form
+        </button>
+      </div>
+    )
   }
 
   if (status === 'sent') {
@@ -138,7 +166,14 @@ export default function MessageForm({ fields, mailto, subject, submitLabel = 'Se
 
       {status === 'error' && (
         <p className="text-sm text-cobalt-700" role="alert">
-          That did not send. Email <span className="font-medium">{mailto}</span> instead.
+          That did not send.{' '}
+          {mailto ? (
+            <>
+              Email <span className="font-medium">{mailto}</span> instead.
+            </>
+          ) : (
+            'Please try again shortly.'
+          )}
         </p>
       )}
 
@@ -146,7 +181,7 @@ export default function MessageForm({ fields, mailto, subject, submitLabel = 'Se
         {status === 'sending' ? 'Sending…' : submitLabel}
       </Button>
 
-      {!FORM_ENDPOINT && (
+      {!FORM_ENDPOINT && mailto && (
         <p className="text-xs leading-relaxed text-ink-faint">
           This opens your email client with the message pre-filled — nothing is sent from this page.
         </p>

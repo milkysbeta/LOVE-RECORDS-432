@@ -1,7 +1,7 @@
 import PageHeader from '../components/layout/PageHeader'
 import MessageForm, { type FieldDef } from '../components/forms/MessageForm'
 import { ExternalIcon } from '../components/ui/Icon'
-import { EMAIL, LOCATION, SOCIALS } from '../data/site'
+import { EMAIL, HAS_EMAIL, LOCATION, SOCIALS } from '../data/site'
 
 const FIELDS: FieldDef[] = [
   { name: 'name', label: 'Name', required: true },
@@ -10,11 +10,11 @@ const FIELDS: FieldDef[] = [
   { name: 'message', label: 'Message', type: 'textarea', required: true },
 ]
 
-const DESKS = [
+const DESKS: [string, string | null, string][] = [
   ['General', EMAIL.general, 'Anything that does not fit the other two.'],
   ['Demos', EMAIL.demos, 'Music submissions — see the demo policy first.'],
   ['Press & licensing', EMAIL.press, 'Promos, interviews, sync and clearance.'],
-] as const
+]
 
 export default function Contact() {
   return (
@@ -28,7 +28,7 @@ export default function Contact() {
       <section className="shell mt-20 grid gap-16 lg:grid-cols-12 lg:gap-20">
         <div className="lg:col-span-5">
           <h2 className="eyebrow rule pt-6 text-cobalt-600" data-reveal>
-            Desks
+            {HAS_EMAIL ? 'Desks' : 'What you can reach us about'}
           </h2>
 
           <dl className="mt-8 space-y-8">
@@ -40,12 +40,16 @@ export default function Contact() {
               >
                 <dt className="eyebrow text-ink-faint">{label}</dt>
                 <dd className="mt-2">
-                  <a
-                    href={`mailto:${address}`}
-                    className="display-sm text-cobalt-600 underline-offset-4 hover:underline"
-                  >
-                    {address}
-                  </a>
+                  {address ? (
+                    <a
+                      href={`mailto:${address}`}
+                      className="display-sm text-cobalt-600 underline-offset-4 hover:underline"
+                    >
+                      {address}
+                    </a>
+                  ) : (
+                    <span className="display-sm text-ink-faint">Use the form</span>
+                  )}
                   <p className="mt-2 text-sm leading-relaxed text-ink-soft">{note}</p>
                 </dd>
               </div>

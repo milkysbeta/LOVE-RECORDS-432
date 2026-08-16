@@ -12,12 +12,22 @@ export const LABEL_SHORT = 'Love 432'
 export const LOCATION = 'Auckland, Aotearoa New Zealand'
 export const FOUNDED = 2026 // TODO: confirm founding year
 
-/** TODO: replace with the real inbox once it exists. */
-export const EMAIL = {
-  general: 'hello@love432records.com',
-  demos: 'demos@love432records.com',
-  press: 'press@love432records.com',
+/**
+ * The label has no inbox yet, so every address is null and the UI hides
+ * the mail links, the "email us instead" lines and the desk list rather
+ * than publishing addresses that route nowhere.
+ *
+ * TODO: set these when a real inbox exists. One address for all three is
+ * fine — `general` alone will light up contact, demos and press.
+ */
+export const EMAIL: { general: string | null; demos: string | null; press: string | null } = {
+  general: null,
+  demos: null,
+  press: null,
 }
+
+/** True once anything can actually be emailed. */
+export const HAS_EMAIL = Object.values(EMAIL).some(Boolean)
 
 /** Only keys with a URL are rendered. Add as accounts come online. */
 export const SOCIALS: { label: string; url: string }[] = [
