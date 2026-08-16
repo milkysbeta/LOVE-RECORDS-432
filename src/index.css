@@ -183,7 +183,7 @@
  *  Change these four values and every surface on the site moves together.
  * ------------------------------------------------------------------ */
 @theme {
-  --surface-fill: 42%;
+  --surface-fill: 34%;
   --surface-blur: 44px;
   --surface-saturate: 1.7;
   --surface-edge: 18%;
@@ -296,6 +296,33 @@
  *  utilities layer, and unlayered rules win over every layer regardless
  *  of specificity.
  * ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------ *
+ *  Nesting must not compound.
+ *
+ *  A translucent box inside a translucent box composites two fills and
+ *  two blurs: 34% over 34% renders near 56%, so an input inside a panel
+ *  looked heavier than a standalone panel even though both were set to
+ *  the same value. That mismatch is what reads as inconsistent.
+ *
+ *  Inside an existing surface, children keep their border and radius and
+ *  contribute no further fill or blur — so every surface on the page
+ *  composites to exactly one layer of the same material. It is also
+ *  cheaper: far fewer backdrop-filter passes.
+ *
+ *  Unlayered so it beats Tailwind's utilities layer.
+ * ------------------------------------------------------------------ */
+.panel .panel,
+.panel .panel-soft,
+.panel .glass,
+.panel-soft .panel-soft,
+.panel-soft .glass,
+.surface .glass,
+.glass .glass {
+  background-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
 @media (max-width: 48rem) {
   :root {
     /* Uniformly cheaper rather than exempting one surface: a catalogue

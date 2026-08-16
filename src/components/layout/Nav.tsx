@@ -78,7 +78,7 @@ export default function Nav() {
 
       {/* Mobile drawer */}
       <div
-        className={`fixed inset-0 z-30 bg-paper/97 backdrop-blur-2xl transition-all duration-500 md:hidden ${
+        className={`surface fixed inset-0 z-30 transition-all duration-500 md:hidden ${
           open ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
