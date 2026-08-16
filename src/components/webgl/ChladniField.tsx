@@ -28,7 +28,45 @@ import { audioEngine } from '../../lib/audioEngine'
  *  device tilt swings the plate.
  * ------------------------------------------------------------------ */
 
-const PARTICLE_COUNT = 70_000
+/* ------------------------------------------------------------------ *
+ *  Performance budget
+ *
+ *  Each particle runs 5 Newton iterations, each evaluating the plate
+ *  function 5 times (once for the value, four for the numerical
+ *  gradient), each of those costing 4 sines — 100 transcendentals per
+ *  vertex. At 70k particles that is 7M sines a frame, 420M a second.
+ *  A discrete GPU shrugs at it; integrated graphics does not.
+ *
+ *  So the buffer is allocated once at full size and the draw range is
+ *  moved at runtime based on measured frame time. Nothing is
+ *  reallocated — dropping the count is just a smaller setDrawRange.
+ * ------------------------------------------------------------------ */
+const PARTICLE_MAX = 70_000
+const PARTICLE_MIN = 9_000
+
+/** First guess from device hints, before any frames have been measured. */
+function initialBudget() {
+  if (typeof navigator === 'undefined') return PARTICLE_MAX
+
+  const cores = navigator.hardwareConcurrency ?? 4
+  // Non-standard but widely supported on Chromium; absent on Safari.
+  const memory = (navigator as { deviceMemory?: number }).deviceMemory ?? 4
+  const coarse =
+    typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+
+  if (cores <= 2 || memory <= 2) return PARTICLE_MIN
+  if (coarse || cores <= 4 || memory <= 4) return 22_000
+  if (cores <= 8) return 45_000
+  return PARTICLE_MAX
+}
+
+/**
+ * Grain size in CSS pixels at the field's resting depth, before DPR.
+ * The single dial for how coarse the sand looks: ~1.4 is a fine dust,
+ * ~2.6 reads as visible grains, and much past ~6 the particles start
+ * merging into a solid wash instead of tracing the nodal lines.
+ */
+const GRAIN_SIZE = 2.7
 
 /** Resonant modes the field walks through, in order. */
 const MODES: [number, number][] = [
@@ -52,6 +90,7 @@ const vertexShader = /* glsl */ `
   uniform float uSize;
   uniform float uScale;
   uniform float uDpr;
+  uniform float uIterations;
   uniform vec2  uPointer;
 
   // Live audio, 0–1 each.
@@ -82,6 +121,10 @@ const vertexShader = /* glsl */ `
     // Newton step: p -= grad * s / |grad|^2, damped to stay stable near
     // the antinodes where the gradient collapses.
     for (int i = 0; i < 5; i++) {
+      // Loop bounds must be constant in GLSL ES; break out early instead
+      // so weak hardware can pay for fewer refinement passes.
+      if (float(i) >= uIterations) break;
+
       float s = chladni(p, uM, uN);
       float e = 0.0015;
       float gx = (chladni(p + vec2(e, 0.0), uM, uN) - chladni(p - vec2(e, 0.0), uM, uN)) / (2.0 * e);
@@ -174,12 +217,17 @@ function Field({ progressRef, tiltRef, reducedMotion, drive, baseOpacity }: Fiel
   const target = useRef(new THREE.Vector2(0, 0))
   const { viewport } = useThree()
 
+  // Live particle budget. A ref, not state — it changes from inside the
+  // render loop and must never trigger a React render.
+  const budget = useRef(initialBudget())
+  const perf = useRef({ frames: 0, elapsed: 0, settled: 0 })
+
   const geometry = useMemo(() => {
     const geo = new THREE.BufferGeometry()
-    const positions = new Float32Array(PARTICLE_COUNT * 3)
-    const seeds = new Float32Array(PARTICLE_COUNT)
+    const positions = new Float32Array(PARTICLE_MAX * 3)
+    const seeds = new Float32Array(PARTICLE_MAX)
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
+    for (let i = 0; i < PARTICLE_MAX; i++) {
       positions[i * 3] = Math.random() * 2 - 1
       positions[i * 3 + 1] = Math.random() * 2 - 1
       positions[i * 3 + 2] = 0
@@ -191,6 +239,7 @@ function Field({ progressRef, tiltRef, reducedMotion, drive, baseOpacity }: Fiel
     // Points are repositioned entirely in the shader, so the CPU-side
     // bounding sphere is meaningless — make it big enough to never cull.
     geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 40)
+    geo.setDrawRange(0, budget.current)
     return geo
   }, [])
 
@@ -200,9 +249,10 @@ function Field({ progressRef, tiltRef, reducedMotion, drive, baseOpacity }: Fiel
       uM: { value: MODES[0][0] },
       uN: { value: MODES[0][1] },
       uJitter: { value: 0.012 },
-      uSize: { value: 1.35 },
+      uSize: { value: GRAIN_SIZE },
       uScale: { value: 5 },
       uDpr: { value: 1 },
+      uIterations: { value: 5 },
       uPointer: { value: new THREE.Vector2(0, 0) },
       uLevel: { value: 0 },
       uBass: { value: 0 },
@@ -279,6 +329,41 @@ function Field({ progressRef, tiltRef, reducedMotion, drive, baseOpacity }: Fiel
     // Fill the viewport regardless of aspect ratio, breathing on bass.
     mat.uniforms.uScale.value = Math.max(viewport.width, viewport.height) * (0.62 + bass * 0.03)
     mat.uniforms.uDpr.value = state.gl.getPixelRatio()
+    // Driven per frame rather than only at material creation, so tweaking
+    // GRAIN_SIZE hot-reloads instead of needing a full refresh.
+    mat.uniforms.uSize.value = GRAIN_SIZE
+
+    /* -- adaptive quality ------------------------------------------ *
+     *  Measure real frame rate once a second and move the draw range to
+     *  match the hardware. Falling is fast and rising is slow and
+     *  hysteretic, so a machine sitting near the threshold settles
+     *  instead of visibly pulsing between two densities.
+     * --------------------------------------------------------------- */
+    const p = perf.current
+    p.frames++
+    p.elapsed += delta
+
+    if (p.elapsed >= 1) {
+      const fps = p.frames / p.elapsed
+      p.frames = 0
+      p.elapsed = 0
+
+      if (fps < 45 && budget.current > PARTICLE_MIN) {
+        budget.current = Math.max(PARTICLE_MIN, Math.round(budget.current * 0.65))
+        p.settled = 0
+      } else if (fps > 57 && budget.current < PARTICLE_MAX) {
+        p.settled++
+        if (p.settled >= 3) {
+          budget.current = Math.min(PARTICLE_MAX, Math.round(budget.current * 1.25))
+          p.settled = 0
+        }
+      }
+
+      // On weak hardware drop refinement passes too. Three iterations
+      // still land on the nodal set, just a little less tightly.
+      mat.uniforms.uIterations.value = budget.current <= 22_000 ? 3 : 5
+      geometry.setDrawRange(0, budget.current)
+    }
   })
 
   return (
@@ -307,6 +392,26 @@ interface ChladniFieldProps {
   bare?: boolean
 }
 
+/**
+ * True when WebGL is missing or running on a CPU rasteriser. Software
+ * rendering this shader would pin a core and still look bad, so the
+ * field simply does not mount — the site is plain white paper instead,
+ * which it is designed to survive.
+ */
+function cannotRender() {
+  try {
+    const canvas = document.createElement('canvas')
+    const gl = canvas.getContext('webgl2') ?? canvas.getContext('webgl')
+    if (!gl) return true
+    const info = gl.getExtension('WEBGL_debug_renderer_info')
+    if (!info) return false
+    const renderer = String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL))
+    return /swiftshader|llvmpipe|software|basic render|microsoft basic/i.test(renderer)
+  } catch {
+    return true
+  }
+}
+
 export default function ChladniField({
   progressRef,
   intensity = 1,
@@ -314,6 +419,8 @@ export default function ChladniField({
   drive = 1,
   bare = false,
 }: ChladniFieldProps) {
+  const [unsupported] = useState(cannotRender)
+
   const reducedMotion =
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -322,9 +429,12 @@ export default function ChladniField({
   // rather than popping in over an already-settled page.
   const [ready, setReady] = useState(false)
   useEffect(() => {
+    if (unsupported) return
     const id = requestAnimationFrame(() => setReady(true))
     return () => cancelAnimationFrame(id)
-  }, [])
+  }, [unsupported])
+
+  if (unsupported) return null
 
   return (
     <div
