@@ -343,13 +343,15 @@ export default function ChladniField({
       </Canvas>
 
       {/* Radial vignette: keeps the centre of the page legible by fading
-          the field out behind body copy. The visualiser opts out. */}
+          the field out behind body copy. Deliberately strong — the
+          pattern is at its best framing the edges, and unreadable text
+          is never worth a prettier background. The visualiser opts out. */}
       {!bare && (
         <div
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse 62% 55% at 50% 45%, rgba(251,252,255,0.86) 0%, rgba(251,252,255,0.45) 45%, rgba(251,252,255,0) 78%)',
+              'radial-gradient(ellipse 80% 72% at 50% 42%, rgba(251,252,255,0.95) 0%, rgba(251,252,255,0.80) 38%, rgba(251,252,255,0.42) 62%, rgba(251,252,255,0) 88%)',
           }}
         />
       )}

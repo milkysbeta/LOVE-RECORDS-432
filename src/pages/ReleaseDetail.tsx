@@ -91,7 +91,7 @@ export default function ReleaseDetail() {
         </div>
 
         {/* ---- detail column ---- */}
-        <div className="lg:col-span-7">
+        <div className="panel panel-pad lg:col-span-7">
           {release.catalogNumber && (
             <p className="eyebrow text-cobalt-600" data-reveal>
               {release.catalogNumber}
@@ -107,7 +107,7 @@ export default function ReleaseDetail() {
           </p>
 
           {release.note && (
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft" data-reveal>
+            <p className="mt-8 max-w-xl body-lg text-ink-soft" data-reveal>
               {release.note}
             </p>
           )}

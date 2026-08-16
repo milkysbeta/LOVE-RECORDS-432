@@ -8,7 +8,7 @@ export default function NotFound() {
         <Logo variant="mark" className="mx-auto h-40 text-cobalt-200" />
         <p className="eyebrow mt-10 text-cobalt-600">404</p>
         <h1 className="display-lg mt-5 text-balance">Nothing resonating here.</h1>
-        <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-ink-soft">
+        <p className="mx-auto mt-5 max-w-md body-lg text-ink-soft">
           That record is not in the catalogue — or the link has drifted out of tune.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">

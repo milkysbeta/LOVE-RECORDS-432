@@ -26,6 +26,7 @@ export default function Home() {
       <section className="relative flex min-h-[92vh] items-center overflow-hidden pt-28">
         <div className="shell grid w-full items-center gap-12 lg:grid-cols-12">
           <div ref={heroCopy} className="lg:col-span-7">
+            <div className="panel panel-pad">
             <p className="eyebrow text-cobalt-600" data-reveal>
               {HERO.eyebrow}
             </p>
@@ -46,7 +47,7 @@ export default function Home() {
             </h1>
 
             <p
-              className="mt-9 max-w-xl text-lg leading-relaxed text-ink-soft"
+              className="body-lg mt-9 max-w-xl text-ink-soft"
               data-reveal
               style={{ '--reveal-delay': '360ms' } as React.CSSProperties}
             >
@@ -62,6 +63,7 @@ export default function Home() {
               <Button to="/about" variant="secondary">
                 Why 432
               </Button>
+            </div>
             </div>
           </div>
 
@@ -113,12 +115,12 @@ export default function Home() {
           </div>
         ) : (
           <div className="mt-12 grid gap-10 lg:grid-cols-12 lg:gap-16" data-reveal>
-            <div className="lg:col-span-7">
-              <p className="text-lg leading-relaxed text-ink-soft">
+            <div className="panel panel-pad lg:col-span-7">
+              <p className="body-lg text-ink-soft">
                 The label is new. The first Love 432 record has not shipped yet — when it does it
                 will land here, tuned to {TUNING.hz}, with the buy link on this page.
               </p>
-              <p className="mt-5 text-lg leading-relaxed text-ink-soft">
+              <p className="body-lg mt-5 text-ink-soft">
                 In the meantime, the archive below is twenty years of{' '}
                 <Link to="/artists/phully" className="text-cobalt-600 underline-offset-4 hover:underline">
                   Phully
@@ -172,22 +174,13 @@ export default function Home() {
        * ============================================================ */}
       <section className="shell mt-32 lg:mt-48">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-20">
-          <div className="lg:col-span-6">
-            <p className="eyebrow text-cobalt-600" data-reveal>
-              The tuning
-            </p>
-            <h2 className="display-lg mt-6 text-balance" data-reveal>
-              {TUNING.headline}
-            </h2>
+          <div className="panel panel-pad lg:col-span-6" data-reveal>
+            <p className="eyebrow text-cobalt-600">The tuning</p>
+            <h2 className="display-lg mt-6 text-balance">{TUNING.headline}</h2>
 
             <div className="mt-9 space-y-5">
               {TUNING.body.map((para, i) => (
-                <p
-                  key={i}
-                  className="text-lg leading-relaxed text-ink-soft"
-                  data-reveal
-                  style={{ '--reveal-delay': `${i * 80}ms` } as React.CSSProperties}
-                >
+                <p key={i} className="body-lg text-ink-soft">
                   {para}
                 </p>
               ))}
@@ -200,7 +193,7 @@ export default function Home() {
 
           {/* 440 vs 432, stated as a spec rather than argued. */}
           <div ref={thesisMark} className="lg:col-span-6">
-            <div className="rounded-2xl border border-cobalt-600/15 bg-white/70 p-8 backdrop-blur-sm sm:p-10" data-reveal>
+            <div className="panel p-8 sm:p-10" data-reveal>
               <div className="grid grid-cols-2 gap-8">
                 <div>
                   <p className="eyebrow text-ink-faint">Concert standard</p>
@@ -238,7 +231,7 @@ export default function Home() {
         <SectionHead eyebrow="Roster" title="Who is on the label" link={{ to: '/artists', label: 'All artists' }} />
 
         <Link to={`/artists/${phully.slug}`} className="group mt-12 block" data-reveal>
-          <div className="grid items-center gap-10 rounded-2xl border border-cobalt-600/12 bg-white/60 p-8 backdrop-blur-sm transition duration-500 hover:border-cobalt-600/30 hover:shadow-2xl hover:shadow-cobalt-600/10 sm:p-10 lg:grid-cols-12">
+          <div className="panel grid items-center gap-10 p-8 transition duration-500 hover:border-cobalt-600/35 hover:shadow-2xl hover:shadow-cobalt-600/15 sm:p-10 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <div className="aspect-square overflow-hidden rounded-xl bg-cobalt-50 ring-1 ring-cobalt-600/10">
                 {phully.image ? (
@@ -262,7 +255,7 @@ export default function Home() {
                 {phully.name}
               </h3>
               <p className="mt-1 text-sm text-ink-faint">{phully.realName}</p>
-              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">{phully.bio[0]}</p>
+              <p className="body-lg mt-6 max-w-2xl text-ink-soft">{phully.bio[0]}</p>
               <span className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-cobalt-600">
                 Read more
                 <ArrowIcon className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -290,7 +283,7 @@ export default function Home() {
             <h2 className="display-lg mt-6 text-balance">
               Making something at 432? We want to hear it.
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-cobalt-100">
+            <p className="body-lg mt-6 text-cobalt-100">
               Two or three tracks. Tell us what it is tuned to. If it is at 440 and it is good, we
               will talk to you about retuning it.
             </p>

@@ -24,7 +24,7 @@ export default function Resonate() {
 
   return (
     <section className="shell pt-36 pb-10 lg:pt-44">
-      <div className="max-w-3xl">
+      <div className="panel panel-pad max-w-3xl">
         <p className="eyebrow text-cobalt-600" data-reveal>
           Resonate
         </p>
@@ -33,7 +33,7 @@ export default function Resonate() {
           Make the frequency visible.
         </h1>
 
-        <p className="mt-8 text-lg leading-relaxed text-ink-soft" data-reveal>
+        <p className="mt-8 body-lg text-ink-soft" data-reveal>
           The pattern behind this page is a Chladni figure — the shape sand takes on a plate
           driven at a resonant frequency. Sand collects along the nodal lines, where the standing
           wave cancels to nothing. Feed it something and it stops being decoration.
@@ -42,8 +42,8 @@ export default function Resonate() {
 
       {/* ---- inputs ---- */}
       <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-7">
-          <h2 className="eyebrow rule pt-6 text-cobalt-600" data-reveal>
+        <div className="panel panel-pad lg:col-span-7">
+          <h2 className="eyebrow text-cobalt-600" data-reveal>
             Feed the plate
           </h2>
 
@@ -65,8 +65,8 @@ export default function Resonate() {
           )}
         </div>
 
-        <div className="lg:col-span-5">
-          <h2 className="eyebrow rule pt-6 text-cobalt-600" data-reveal>
+        <div className="panel panel-pad lg:col-span-5">
+          <h2 className="eyebrow text-cobalt-600" data-reveal>
             Analysis
           </h2>
           <div className="mt-8" data-reveal>
@@ -81,8 +81,8 @@ export default function Resonate() {
       </div>
 
       {/* ---- play something through it ---- */}
-      <div className="mt-20" data-reveal>
-        <h2 className="eyebrow rule pt-6 text-cobalt-600">Or drive it with a record</h2>
+      <div className="panel panel-pad mt-20" data-reveal>
+        <h2 className="eyebrow text-cobalt-600">Or drive it with a record</h2>
 
         <ul className="mt-8 grid gap-2 sm:grid-cols-2">
           {playable.map(({ track, release }, i) => {

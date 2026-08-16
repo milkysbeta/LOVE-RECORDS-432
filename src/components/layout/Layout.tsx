@@ -32,7 +32,7 @@ export default function Layout() {
   // pull it back so it never competes with the catalogue. /resonate is
   // the instrument itself: full bleed, no vignette, audio driven hard.
   const isVisualiser = pathname === '/resonate'
-  const intensity = isVisualiser || pathname === '/' ? 1 : 0.42
+  const intensity = isVisualiser ? 1 : pathname === '/' ? 0.85 : 0.3
   const drive = isVisualiser ? 2.4 : 1
 
   return (

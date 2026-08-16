@@ -5,7 +5,7 @@ import { EMAIL, HAS_EMAIL, LABEL_NAME, LOCATION, NAV, SOCIALS, TUNING } from '..
 
 export default function Footer() {
   return (
-    <footer className="relative mt-32 border-t border-cobalt-600/12 bg-white/60 backdrop-blur-sm">
+    <footer className="relative mt-32 border-t border-cobalt-600/12 bg-white/80 backdrop-blur-xl">
       <div className="shell py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">

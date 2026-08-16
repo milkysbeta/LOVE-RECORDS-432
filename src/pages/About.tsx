@@ -22,31 +22,31 @@ export default function About() {
 
       {/* ---- the tuning argument ---- */}
       <section className="shell mt-24 grid gap-14 lg:grid-cols-12 lg:gap-20">
-        <div className="lg:col-span-7">
+        <div className="panel panel-pad lg:col-span-7">
           <h2 className="display-md text-balance" data-reveal>
             What 432 actually means
           </h2>
 
           <div className="mt-8 space-y-6">
-            <p className="text-lg leading-relaxed text-ink-soft" data-reveal>
+            <p className="body-lg text-ink-soft" data-reveal>
               Tuning is a reference point, not a law of nature. When someone says a record is "in
               A", they mean its A is vibrating at some agreed number of times per second. Most of
               the recorded world agreed on {TUNING.standard}Hz in the twentieth century, and that
               agreement stuck because orchestras needed to play together, not because anyone proved
               it sounded best.
             </p>
-            <p className="text-lg leading-relaxed text-ink-soft" data-reveal>
+            <p className="body-lg text-ink-soft" data-reveal>
               We tune to {TUNING.hz}Hz instead — eight hertz lower, about a third of a semitone
               flat. On a synth that is one parameter. On a room full of speakers it is the
               difference between a low mid that crowds and a low mid that opens.
             </p>
-            <p className="text-lg leading-relaxed text-ink-soft" data-reveal>
+            <p className="body-lg text-ink-soft" data-reveal>
               You will find a lot written about 432Hz that we are not going to repeat. There are
               claims about water crystals and cosmic ratios and the human heart, and we have no
               evidence for any of it. What we have is a preference, held consistently, applied to
               every record — and a room in Auckland where it demonstrably sounds better.
             </p>
-            <p className="text-lg leading-relaxed text-ink-soft" data-reveal>
+            <p className="body-lg text-ink-soft" data-reveal>
               That is the honest version. It is a house style, like a label that only puts out 12"
               or only records to tape. Ours happens to be a frequency.
             </p>
@@ -67,7 +67,7 @@ export default function About() {
 
       {/* ---- facts ---- */}
       <section className="shell mt-32">
-        <div className="rule grid gap-x-10 gap-y-10 pt-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="panel panel-pad grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {[
             ['Based in', 'Auckland', 'Aotearoa New Zealand'],
             ['Tuning', `${TUNING.hz} Hz`, `${TUNING.standard - TUNING.hz}Hz below concert pitch`],
@@ -93,7 +93,7 @@ export default function About() {
           How the label works
         </h2>
 
-        <div className="mt-12 grid gap-10 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
           {[
             [
               'Tuned, then mastered',
@@ -110,12 +110,13 @@ export default function About() {
           ].map(([title, body], i) => (
             <div
               key={title}
+              className="panel-soft p-7"
               data-reveal
               style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}
             >
               <p className="font-mono text-xs text-cobalt-600">0{i + 1}</p>
               <h3 className="display-sm mt-4">{title}</h3>
-              <p className="mt-4 text-base leading-relaxed text-ink-soft">{body}</p>
+              <p className="body-md mt-4 text-ink-soft">{body}</p>
             </div>
           ))}
         </div>
@@ -123,11 +124,11 @@ export default function About() {
 
       <section className="shell mt-32">
         <div
-          className="rounded-2xl border border-cobalt-600/15 bg-white/70 px-8 py-14 text-center backdrop-blur-sm sm:px-14"
+          className="panel px-8 py-14 text-center sm:px-14"
           data-reveal
         >
           <h2 className="display-md text-balance">Curious rather than convinced is fine.</h2>
-          <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-5 max-w-xl body-lg text-ink-soft">
             Most artists we talk to have never released anything at 432. That is not a problem —
             it is usually the start of the conversation.
           </p>

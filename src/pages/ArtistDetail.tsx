@@ -59,7 +59,7 @@ export default function ArtistDetail() {
           </div>
         </div>
 
-        <div className="lg:col-span-7">
+        <div className="panel panel-pad lg:col-span-7">
           <p className="eyebrow text-cobalt-600" data-reveal>
             {artist.role}
           </p>
@@ -83,7 +83,7 @@ export default function ArtistDetail() {
             {artist.bio.map((para, i) => (
               <p
                 key={i}
-                className="text-lg leading-relaxed text-ink-soft"
+                className="body-lg text-ink-soft"
                 data-reveal
                 style={{ '--reveal-delay': `${i * 70}ms` } as React.CSSProperties}
               >

@@ -30,7 +30,7 @@ export default function Artists() {
                 data-reveal
                 style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}
               >
-                <div className="h-full rounded-2xl border border-cobalt-600/12 bg-white/60 p-6 backdrop-blur-sm transition duration-500 hover:border-cobalt-600/35 hover:shadow-2xl hover:shadow-cobalt-600/10 sm:p-8">
+                <div className="panel h-full p-6 transition duration-500 hover:border-cobalt-600/40 hover:shadow-2xl hover:shadow-cobalt-600/15 sm:p-8">
                   <div className="aspect-4/3 overflow-hidden rounded-xl bg-cobalt-50 ring-1 ring-cobalt-600/10">
                     {artist.image ? (
                       <img

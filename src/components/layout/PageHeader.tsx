@@ -7,35 +7,28 @@ interface Props {
   children?: ReactNode
 }
 
-/** Shared top-of-page block. Keeps every interior route on one rhythm. */
+/**
+ * Shared top-of-page block. Keeps every interior route on one rhythm,
+ * and sits in a frosted panel so the Chladni field never competes with
+ * the heading and lede.
+ */
 export default function PageHeader({ eyebrow, title, lede, children }: Props) {
   return (
-    <header className="shell pt-40 lg:pt-48">
-      {eyebrow && (
-        <p className="eyebrow text-cobalt-600" data-reveal>
-          {eyebrow}
-        </p>
-      )}
+    <header className="shell pt-36 lg:pt-44">
+      <div className="panel panel-pad max-w-5xl" data-reveal>
+        {eyebrow && <p className="eyebrow text-cobalt-600">{eyebrow}</p>}
 
-      <h1
-        className="display-lg mt-6 max-w-4xl text-balance"
-        data-reveal
-        style={{ '--reveal-delay': '80ms' } as React.CSSProperties}
-      >
-        {title}
-      </h1>
-
-      {lede && (
-        <p
-          className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-soft"
-          data-reveal
-          style={{ '--reveal-delay': '160ms' } as React.CSSProperties}
+        <h1
+          className="display-lg mt-6 max-w-4xl text-balance"
+          style={{ '--reveal-delay': '80ms' } as React.CSSProperties}
         >
-          {lede}
-        </p>
-      )}
+          {title}
+        </h1>
 
-      {children}
+        {lede && <p className="body-lg mt-8 max-w-2xl text-ink-soft">{lede}</p>}
+
+        {children}
+      </div>
     </header>
   )
 }

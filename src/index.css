@@ -10,8 +10,10 @@
   --color-paper: #fbfcff;
   --color-paper-deep: #f2f5fd;
   --color-ink: #0a0f1f;
-  --color-ink-soft: #414a63;
-  --color-ink-faint: #8b93a8;
+  /* Darkened from the original greys: legible body copy has to win
+     against a moving field, not just against flat paper. */
+  --color-ink-soft: #333c55;
+  --color-ink-faint: #626b84;
 
   /* — light cobalt ramp — */
   --color-cobalt-50: #eef3ff;
@@ -133,11 +135,55 @@
    section eyebrows and metadata rows. */
 @utility eyebrow {
   font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: 0.6875rem;
+  font-weight: 600;
+  font-size: 0.78rem;
   line-height: 1;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+/* ---- body copy -------------------------------------------------- *
+ *  Fluid, and a step larger than the Tailwind defaults were. Long
+ *  measures over a live background need the extra size.
+ * ----------------------------------------------------------------- */
+@utility body-lg {
+  font-size: clamp(1.125rem, 0.45vw + 1.02rem, 1.375rem);
+  line-height: 1.62;
+}
+
+@utility body-md {
+  font-size: clamp(1rem, 0.28vw + 0.94rem, 1.125rem);
+  line-height: 1.68;
+}
+
+/* ---- frosted panel ---------------------------------------------- *
+ *  The readability device for anything sitting over the Chladni
+ *  field. Opaque enough to guarantee contrast, blurred enough that the
+ *  pattern still reads through it as texture rather than noise.
+ * ----------------------------------------------------------------- */
+@utility panel {
+  background-color: color-mix(in oklab, #fff 82%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  backdrop-filter: blur(22px) saturate(1.4);
+  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 14%, transparent);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 1px 2px rgba(10, 15, 31, 0.03),
+    0 18px 50px -22px rgba(47, 95, 224, 0.22);
+}
+
+/* Lighter weight for cards that already sit on their own artwork. */
+@utility panel-soft {
+  background-color: color-mix(in oklab, #fff 68%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  backdrop-filter: blur(16px) saturate(1.25);
+  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 11%, transparent);
+  border-radius: 1.25rem;
+}
+
+/* Standard interior padding for a panel wrapping running text. */
+@utility panel-pad {
+  padding: clamp(1.5rem, 3.5vw, 3rem);
 }
 
 @utility shell {

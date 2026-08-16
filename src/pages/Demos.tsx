@@ -38,8 +38,8 @@ export default function Demos() {
       />
 
       <section className="shell mt-20 grid gap-16 lg:grid-cols-12 lg:gap-20">
-        <div className="lg:col-span-5">
-          <h2 className="eyebrow rule pt-6 text-cobalt-600" data-reveal>
+        <div className="panel panel-pad lg:col-span-5">
+          <h2 className="eyebrow text-cobalt-600" data-reveal>
             Before you send
           </h2>
 
@@ -75,7 +75,7 @@ export default function Demos() {
 
         <div className="lg:col-span-7">
           <div
-            className="rounded-2xl border border-cobalt-600/12 bg-white/70 p-7 backdrop-blur-sm sm:p-10"
+            className="panel p-7 sm:p-10"
             data-reveal
           >
             <MessageForm
