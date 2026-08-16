@@ -37,9 +37,10 @@ jobs:
 
       - run: npm run build
         env:
-          # Must match the repository name for a project Pages site.
+          # Derived from the repository name rather than hardcoded, so a
+          # project Pages site keeps working if the repo is renamed.
           # Set to "/" if this ever moves to a custom domain.
-          BASE_PATH: /love432records/
+          BASE_PATH: /${{ github.event.repository.name }}/
 
       - uses: actions/upload-pages-artifact@v3
         with:
