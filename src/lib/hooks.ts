@@ -67,11 +67,33 @@ export function useReveal(deps: unknown[] = []) {
     const nodes = document.querySelectorAll<HTMLElement>('[data-reveal]:not([data-reveal="in"])')
     if (!nodes.length) return
 
+    /**
+     * Sets the final state inline as well as flipping the attribute.
+     *
+     * The attribute alone relies on `[data-reveal='in']` beating
+     * `[data-reveal]` in the cascade, and that turned out not to hold —
+     * elements were reaching "in" while still computing to opacity 0,
+     * leaving the catalogue grid invisible. An inline style cannot lose,
+     * and the CSS transition still animates it.
+     */
+    const reveal = (el: Element) => {
+      el.setAttribute('data-reveal', 'in')
+      const style = (el as HTMLElement).style
+      style.opacity = '1'
+      style.transform = 'none'
+    }
+
+    // No IntersectionObserver at all: show everything rather than hide it.
+    if (typeof IntersectionObserver === 'undefined') {
+      nodes.forEach(reveal)
+      return
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.setAttribute('data-reveal', 'in')
+            reveal(entry.target)
             observer.unobserve(entry.target)
           }
         })
@@ -79,8 +101,37 @@ export function useReveal(deps: unknown[] = []) {
       { rootMargin: '0px 0px -12% 0px', threshold: 0.1 },
     )
 
-    nodes.forEach((n) => observer.observe(n))
-    return () => observer.disconnect()
+    // Anything already on screen is revealed synchronously from its own
+    // geometry. Waiting for the observer to report what is plainly
+    // visible adds a flash of empty page and, if it never reports, a
+    // permanently blank one.
+    nodes.forEach((n) => {
+      const rect = n.getBoundingClientRect()
+      const onScreen = rect.top < window.innerHeight * 0.92 && rect.bottom > 0
+      if (onScreen) reveal(n)
+      else observer.observe(n)
+    })
+
+    /* ---------------------------------------------------------------- *
+     *  Safety net.
+     *
+     *  This effect hides content first and reveals it on intersection.
+     *  If the observer never fires — a browser quirk, a stacking or
+     *  containment change, a mid-animation route swap — the content is
+     *  invisible with no way back, which is exactly what happened to the
+     *  catalogue grid. An animation is never worth an unreadable page,
+     *  so anything still pending after a beat is simply shown.
+     * ---------------------------------------------------------------- */
+    const failsafe = window.setTimeout(() => {
+      document
+        .querySelectorAll<HTMLElement>('[data-reveal]:not([data-reveal="in"])')
+        .forEach(reveal)
+    }, 1500)
+
+    return () => {
+      window.clearTimeout(failsafe)
+      observer.disconnect()
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps)
 }
