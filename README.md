@@ -123,6 +123,39 @@ cutting between them.
 
 Tuning knobs are at the top of the file: `PARTICLE_COUNT` and the `MODES` list.
 
+### Making it reactive — `/resonate`
+
+The field takes three live inputs, all optional and all off until asked for:
+
+| Input | Permission | Drives |
+|---|---|---|
+| Track playback | none | The site's own player, tapped with a `MediaElementAudioSourceNode` |
+| Microphone | `getUserMedia` prompt | Whatever is in the room |
+| Device tilt | iOS prompt; none on Android | Swings the plate, replacing pointer parallax |
+
+Bass pushes the figure outward from centre, treble shimmers the depth axis, overall
+level shakes the sand off the nodal lines, and spectral brightness walks the plate up
+through its resonant modes — so a hi-hat pattern resolves into a denser figure than a
+bassline does. `drive` in `Layout.tsx` scales the whole response; `/resonate` runs at
+2.4× with the vignette off.
+
+**These features require HTTPS.** `getUserMedia` and `DeviceOrientationEvent` are both
+secure-context only, so they work on the deployed Pages site and on `localhost`, but
+*not* over a plain `http://192.168.x.x` LAN address. To test tilt on a phone against the
+dev server you need a tunnel (`cloudflared`, `ngrok`) or just use the live site.
+
+Two implementation details that matter if you touch this:
+
+- **Track and mic get separate `AnalyserNode`s.** The track analyser sits in the path to
+  the speakers; the mic analyser is a dead end. Sharing one would route the microphone
+  back out of the speakers and howl.
+- **Permissions are requested from click handlers only, never an effect.** iOS rejects
+  `DeviceOrientationEvent.requestPermission()` unless it is called inside a genuine user
+  gesture, and prompting an unasked visitor is bad manners regardless.
+
+Nothing is recorded or transmitted — audio is analysed into five numbers per frame and
+discarded.
+
 The whole layer is lazy-loaded (three.js is ~2/3 of the bundle) and wrapped in an error
 boundary — no WebGL, a blocked context or a driver crash degrades to a plain white page
 rather than taking the catalogue down.

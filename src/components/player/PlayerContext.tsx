@@ -10,6 +10,7 @@ import {
 } from 'react'
 import type { Release, Track } from '../../data/types'
 import { fullTrackTitle } from '../../lib/format'
+import { audioEngine } from '../../lib/audioEngine'
 
 /* ------------------------------------------------------------------ *
  *  Global audio player
@@ -137,6 +138,14 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setError(null)
     setIsLoading(true)
     setCurrentTime(0)
+
+    // Tap the element for the visualiser. Done here rather than at
+    // construction because an AudioContext created outside a user
+    // gesture starts suspended — by this point the visitor has clicked
+    // play, so the context is allowed to run.
+    audioEngine.attachElement(audio)
+    audioEngine.resume()
+
     audio.src = current.track.previewUrl
     audio.load()
     audio.play().catch(() => {

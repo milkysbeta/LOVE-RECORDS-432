@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
+import { audioEngine } from '../../lib/audioEngine'
 
 /* ------------------------------------------------------------------ *
  *  Chladni cymatic particle field
  *
- *  A Chladni plate is a metal sheet bowed or driven at a resonant
- *  frequency; sand on its surface migrates away from the antinodes and
- *  settles along the *nodal lines*, where the standing wave amplitude is
- *  zero. The result is the figure you get when you make a frequency
- *  visible — which is the whole premise of a label that tunes to 432.
+ *  A Chladni plate is a metal sheet driven at a resonant frequency; sand
+ *  on its surface migrates away from the antinodes and settles along the
+ *  *nodal lines*, where the standing wave amplitude is zero. It is what
+ *  a frequency looks like when you make it visible — which is the whole
+ *  premise of a label that tunes to 432.
  *
  *  For a square plate the standing wave is
  *
@@ -23,7 +24,8 @@ import * as THREE from 'three'
  *
  *  m and n are lerped continuously (fractional modes are perfectly well
  *  defined here), so the figure morphs rather than cutting between
- *  patterns. Scroll position drives the morph.
+ *  patterns. Scroll drives the morph; live audio drives it further, and
+ *  device tilt swings the plate.
  * ------------------------------------------------------------------ */
 
 const PARTICLE_COUNT = 70_000
@@ -50,6 +52,11 @@ const vertexShader = /* glsl */ `
   uniform float uSize;
   uniform float uScale;
   uniform vec2  uPointer;
+
+  // Live audio, 0–1 each.
+  uniform float uLevel;
+  uniform float uBass;
+  uniform float uHigh;
 
   attribute float aSeed;
 
@@ -84,20 +91,26 @@ const vertexShader = /* glsl */ `
 
     p = clamp(p, -1.0, 1.0);
 
+    // Kick drum pushes the whole figure outward from centre.
+    p *= 1.0 + uBass * 0.07;
+
     // Scatter around the line so it reads as settled sand, not wireframe.
+    // Loudness shakes the plate — the sand stops sitting still.
     float ang = hash(aSeed) * 6.2831853;
     float rad = hash(aSeed + 7.7);
-    p += vec2(cos(ang), sin(ang)) * rad * uJitter;
+    p += vec2(cos(ang), sin(ang)) * rad * uJitter * (1.0 + uLevel * 5.0);
 
-    // Slow vertical breathing keeps the plate alive while static.
+    // Slow vertical breathing keeps the plate alive while static;
+    // treble adds a faster shimmer on top.
     float z = (hash(aSeed + 3.3) - 0.5) * 0.55;
     z += sin(uTime * 0.35 + aSeed * 12.0) * 0.03;
+    z += sin(uTime * 3.1 + aSeed * 40.0) * uHigh * 0.05;
     vDepth = z;
 
     vec3 world = vec3(p * uScale, z * uScale * 0.35);
 
-    // Pointer parallax — deeper particles swing further, so the field
-    // gains volume as the cursor moves.
+    // Pointer / tilt parallax — deeper particles swing further, so the
+    // field gains volume as the cursor moves or the phone turns.
     world.x += uPointer.x * (0.05 + (z + 0.3) * 0.30) * uScale;
     world.y += uPointer.y * (0.05 + (z + 0.3) * 0.30) * uScale;
 
@@ -105,7 +118,7 @@ const vertexShader = /* glsl */ `
     gl_Position = projectionMatrix * mv;
 
     vShade = rad;
-    gl_PointSize = uSize * (1.0 + z) * (300.0 / max(-mv.z, 0.001));
+    gl_PointSize = uSize * (1.0 + z + uLevel * 1.3) * (300.0 / max(-mv.z, 0.001));
   }
 `
 
@@ -131,16 +144,28 @@ const fragmentShader = /* glsl */ `
   }
 `
 
+export interface TiltReading {
+  x: number
+  y: number
+}
+
 interface FieldProps {
   /** 0→1 across the page; drives which mode the plate is resonating in. */
   progressRef: React.RefObject<number>
+  /** Device orientation, when the visitor has granted it. */
+  tiltRef?: React.RefObject<TiltReading> | null
   reducedMotion: boolean
+  /** Multiplier on how hard audio drives the visuals. */
+  drive: number
+  baseOpacity: number
 }
 
-function Field({ progressRef, reducedMotion }: FieldProps) {
+function Field({ progressRef, tiltRef, reducedMotion, drive, baseOpacity }: FieldProps) {
   const materialRef = useRef<THREE.ShaderMaterial>(null)
   const pointer = useRef(new THREE.Vector2(0, 0))
   const smoothed = useRef(new THREE.Vector2(0, 0))
+  // Reused each frame so parallax allocates nothing.
+  const target = useRef(new THREE.Vector2(0, 0))
   const { viewport } = useThree()
 
   const geometry = useMemo(() => {
@@ -172,11 +197,14 @@ function Field({ progressRef, reducedMotion }: FieldProps) {
       uSize: { value: 1.5 },
       uScale: { value: 5 },
       uPointer: { value: new THREE.Vector2(0, 0) },
+      uLevel: { value: 0 },
+      uBass: { value: 0 },
+      uHigh: { value: 0 },
       uColorNear: { value: new THREE.Color('#2f5fe0') },
       uColorFar: { value: new THREE.Color('#93aeff') },
-      uOpacity: { value: 0.55 },
+      uOpacity: { value: baseOpacity },
     }),
-    [],
+    [baseOpacity],
   )
 
   // Track the pointer in normalised device space.
@@ -195,16 +223,34 @@ function Field({ progressRef, reducedMotion }: FieldProps) {
     const mat = materialRef.current
     if (!mat) return
 
+    // One analysis pass per rendered frame, shared by everything.
+    audioEngine.update()
+    const audio = audioEngine.metrics
+
     const t = state.clock.elapsedTime
     mat.uniforms.uTime.value = reducedMotion ? 0 : t
 
+    const level = audio.level * drive
+    const bass = audio.bass * drive
+    const high = audio.high * drive
+
+    mat.uniforms.uLevel.value = level
+    mat.uniforms.uBass.value = bass
+    mat.uniforms.uHigh.value = high
+    // Louder passages bring the field forward out of the paper.
+    mat.uniforms.uOpacity.value = baseOpacity * (1 + level * 0.5)
+
     // Scroll drives the walk through the mode list; a slow autonomous
-    // drift keeps it moving even when the page is still.
+    // drift keeps it moving even when the page is still; and brightness
+    // of the incoming audio pushes it further up the list, so a hi-hat
+    // pattern resonates in a denser figure than a bassline.
     const drift = reducedMotion ? 0 : t * 0.02
-    const pos = (progressRef.current ?? 0) * (MODES.length - 1) + drift
-    const i = Math.floor(pos) % MODES.length
+    const timbre = audio.active ? (audio.centroid - 0.5) * 2.5 * drive : 0
+    const pos = (progressRef.current ?? 0) * (MODES.length - 1) + drift + timbre
+    const wrapped = ((pos % MODES.length) + MODES.length) % MODES.length
+    const i = Math.floor(wrapped)
     const j = (i + 1) % MODES.length
-    const f = pos - Math.floor(pos)
+    const f = wrapped - i
     // Smoothstep the blend so the figure lingers on each resonance
     // instead of sliding through at constant speed.
     const e = f * f * (3 - 2 * f)
@@ -212,13 +258,19 @@ function Field({ progressRef, reducedMotion }: FieldProps) {
     mat.uniforms.uM.value = THREE.MathUtils.lerp(MODES[i][0], MODES[j][0], e)
     mat.uniforms.uN.value = THREE.MathUtils.lerp(MODES[i][1], MODES[j][1], e)
 
-    // Ease the pointer so parallax glides rather than snaps.
+    // Tilt wins over pointer when the phone is actually reporting it.
+    const tilt = tiltRef?.current
+    const tilting = Boolean(tilt) && (tilt!.x !== 0 || tilt!.y !== 0)
+    if (tilting) target.current.set(tilt!.x, -tilt!.y)
+    else target.current.copy(pointer.current)
+
+    // Ease so parallax glides rather than snaps.
     const k = 1 - Math.pow(0.001, delta)
-    smoothed.current.lerp(pointer.current, reducedMotion ? 0 : k)
+    smoothed.current.lerp(target.current, reducedMotion ? 0 : k)
     mat.uniforms.uPointer.value.copy(smoothed.current)
 
-    // Fill the viewport regardless of aspect ratio.
-    mat.uniforms.uScale.value = Math.max(viewport.width, viewport.height) * 0.62
+    // Fill the viewport regardless of aspect ratio, breathing on bass.
+    mat.uniforms.uScale.value = Math.max(viewport.width, viewport.height) * (0.62 + bass * 0.03)
   })
 
   return (
@@ -240,9 +292,20 @@ interface ChladniFieldProps {
   progressRef: React.RefObject<number>
   /** Dial the whole field back on content-heavy routes. */
   intensity?: number
+  tiltRef?: React.RefObject<TiltReading> | null
+  /** Amplify audio response. The fullscreen visualiser turns this up. */
+  drive?: number
+  /** Skip the readability vignette — the visualiser wants the full field. */
+  bare?: boolean
 }
 
-export default function ChladniField({ progressRef, intensity = 1 }: ChladniFieldProps) {
+export default function ChladniField({
+  progressRef,
+  intensity = 1,
+  tiltRef = null,
+  drive = 1,
+  bare = false,
+}: ChladniFieldProps) {
   const reducedMotion =
     typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -270,18 +333,26 @@ export default function ChladniField({ progressRef, intensity = 1 }: ChladniFiel
         gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
         style={{ background: 'transparent' }}
       >
-        <Field progressRef={progressRef} reducedMotion={reducedMotion} />
+        <Field
+          progressRef={progressRef}
+          tiltRef={tiltRef}
+          reducedMotion={reducedMotion}
+          drive={drive}
+          baseOpacity={bare ? 0.85 : 0.55}
+        />
       </Canvas>
 
       {/* Radial vignette: keeps the centre of the page legible by fading
-          the field out behind body copy. */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 62% 55% at 50% 45%, rgba(251,252,255,0.86) 0%, rgba(251,252,255,0.45) 45%, rgba(251,252,255,0) 78%)',
-        }}
-      />
+          the field out behind body copy. The visualiser opts out. */}
+      {!bare && (
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 62% 55% at 50% 45%, rgba(251,252,255,0.86) 0%, rgba(251,252,255,0.45) 45%, rgba(251,252,255,0) 78%)',
+          }}
+        />
+      )}
     </div>
   )
 }

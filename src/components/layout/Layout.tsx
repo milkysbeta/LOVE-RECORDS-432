@@ -5,6 +5,7 @@ import Footer from './Footer'
 import PlayerBar from '../player/PlayerBar'
 import FieldBoundary from '../webgl/FieldBoundary'
 import { usePlayer } from '../player/PlayerContext'
+import { useReactive } from '../reactive/ReactiveContext'
 import { useReveal, useSmoothScroll } from '../../lib/hooks'
 
 // three.js is ~2/3 of the bundle and nothing above the fold depends on
@@ -15,6 +16,7 @@ export default function Layout() {
   const { pathname } = useLocation()
   const { progressRef, lenisRef } = useSmoothScroll()
   const { current } = usePlayer()
+  const { tiltRef } = useReactive()
 
   // Re-scan for reveal targets after every navigation.
   useReveal([pathname])
@@ -26,15 +28,24 @@ export default function Layout() {
     window.scrollTo(0, 0)
   }, [pathname, lenisRef])
 
-  // The home page carries the field at full strength; interior routes
-  // pull it back so it never competes with the catalogue.
-  const intensity = pathname === '/' ? 1 : 0.42
+  // The home page carries the field at full strength and interior routes
+  // pull it back so it never competes with the catalogue. /resonate is
+  // the instrument itself: full bleed, no vignette, audio driven hard.
+  const isVisualiser = pathname === '/resonate'
+  const intensity = isVisualiser || pathname === '/' ? 1 : 0.42
+  const drive = isVisualiser ? 2.4 : 1
 
   return (
     <>
       <FieldBoundary>
         <Suspense fallback={null}>
-          <ChladniField progressRef={progressRef} intensity={intensity} />
+          <ChladniField
+            progressRef={progressRef}
+            intensity={intensity}
+            tiltRef={tiltRef}
+            drive={drive}
+            bare={isVisualiser}
+          />
         </Suspense>
       </FieldBoundary>
 

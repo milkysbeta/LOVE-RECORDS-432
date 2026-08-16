@@ -5,9 +5,9 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 /**
- * GitHub Pages serves a project site from a subpath, so the built asset
- * URLs have to be prefixed. Override with BASE_PATH=/ when deploying to
- * a root domain (a custom domain, Netlify, Vercel…).
+ * GitHub Pages serves a project site from a subpath, so built asset URLs
+ * have to be prefixed. Override with BASE_PATH=/ when deploying to a
+ * root domain (a custom domain, Netlify, Vercel…).
  */
 const BASE = process.env.BASE_PATH ?? '/love432records/'
 
@@ -25,7 +25,7 @@ function githubPages(): Plugin {
     name: 'love432-github-pages',
     apply: 'build',
     closeBundle() {
-      const dist = resolve(__dirname, 'dist')
+      const dist = resolve(import.meta.dirname, 'dist')
       copyFileSync(resolve(dist, 'index.html'), resolve(dist, '404.html'))
       writeFileSync(resolve(dist, '.nojekyll'), '')
     },
@@ -33,11 +33,14 @@ function githubPages(): Plugin {
 }
 
 // https://vite.dev/config/
-export default defineConfig({
-  base: BASE,
+export default defineConfig(({ command, isPreview }) => ({
+  // Dev runs at the root — carrying the Pages subpath through `vite dev`
+  // only means typing /love432records/ into every local URL. Preview has
+  // to match the build, since it serves the built output.
+  base: command === 'build' || isPreview ? BASE : '/',
   plugins: [react(), tailwindcss(), githubPages()],
   server: {
     port: 4320,
     open: false,
   },
-})
+}))

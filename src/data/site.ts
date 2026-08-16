@@ -30,6 +30,7 @@ export const SOCIALS: { label: string; url: string }[] = [
 export const NAV = [
   { label: 'Catalogue', to: '/catalogue' },
   { label: 'Artists', to: '/artists' },
+  { label: 'Resonate', to: '/resonate' },
   { label: 'About', to: '/about' },
   { label: 'Demos', to: '/demos' },
   { label: 'Contact', to: '/contact' },

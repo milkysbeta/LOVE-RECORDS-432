@@ -115,6 +115,52 @@ export const MenuIcon = ({ className = 'size-5' }: IconProps) => (
   </svg>
 )
 
+export const MicIcon = ({ className = 'size-4' }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={`${base} ${className}`} aria-hidden="true">
+    <rect x="9" y="2.5" width="6" height="11" rx="3" />
+    <path
+      d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21m-3 0h6"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+  </svg>
+)
+
+/** Phone tilting on its axis — the motion-sensor affordance. */
+export const MotionIcon = ({ className = 'size-4' }: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.7"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={`${base} ${className}`}
+    aria-hidden="true"
+  >
+    <rect x="7" y="2.5" width="10" height="19" rx="2.5" transform="rotate(14 12 12)" />
+    <path d="M2.5 8.5a7 7 0 0 0 0 7M21.5 8.5a7 7 0 0 1 0 7" opacity="0.55" />
+  </svg>
+)
+
+/** Concentric rings — used for the resonate / visualiser entry point. */
+export const ResonateIcon = ({ className = 'size-4' }: IconProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.7"
+    className={`${base} ${className}`}
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="12" r="5.2" opacity="0.7" />
+    <circle cx="12" cy="12" r="9" opacity="0.35" />
+  </svg>
+)
+
 /** Animated three-bar equaliser shown against the currently playing row. */
 export const EqIcon = ({ className = 'size-3.5' }: IconProps) => (
   <svg viewBox="0 0 12 12" className={`${base} ${className}`} aria-hidden="true">

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { PlayerProvider } from './components/player/PlayerContext'
+import { ReactiveProvider } from './components/reactive/ReactiveContext'
 import './index.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -11,7 +12,9 @@ createRoot(document.getElementById('root')!).render(
         GitHub Pages subpath or the root of a custom domain. */}
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <PlayerProvider>
-        <App />
+        <ReactiveProvider>
+          <App />
+        </ReactiveProvider>
       </PlayerProvider>
     </BrowserRouter>
   </StrictMode>,
