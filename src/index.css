@@ -289,6 +289,20 @@
   [data-reveal='in'] {
     opacity: 1;
     transform: none;
+    /*
+      Critical, not just a tidy-up. `will-change: transform` promotes the
+      element and makes it a BACKDROP ROOT, and a backdrop-filter can only
+      sample within its nearest backdrop root. Any .panel inside a
+      still-promoted reveal wrapper therefore has nothing behind it to
+      blur — which is exactly why release cards looked flat while
+      reporting identical computed styles: they are the only panels
+      wrapped in a separate reveal element rather than carrying the
+      attribute themselves.
+
+      The hint is only worth having while the transition runs, so it is
+      dropped the moment the element has arrived.
+    */
+    will-change: auto;
   }
 }
 

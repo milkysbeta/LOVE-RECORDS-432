@@ -81,6 +81,9 @@ export function useReveal(deps: unknown[] = []) {
       const style = (el as HTMLElement).style
       style.opacity = '1'
       style.transform = 'none'
+      // Drop the promotion too — while it stands the element is a backdrop
+      // root, and any glass panel inside it cannot sample the page behind.
+      style.willChange = 'auto'
     }
 
     // No IntersectionObserver at all: show everything rather than hide it.
