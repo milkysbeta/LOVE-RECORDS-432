@@ -36,7 +36,7 @@ export default function Nav() {
       >
         <nav className="shell flex items-center justify-between gap-6 py-4">
           <Link to="/" className="text-ink transition hover:text-cobalt-600" aria-label="Love 432 Records — home">
-            <Logo variant="lockup" className={scrolled ? 'h-7' : 'h-9'} />
+            <Logo className={scrolled ? 'h-7' : 'h-9'} />
           </Link>
 
           <ul className="hidden items-center gap-8 md:flex">

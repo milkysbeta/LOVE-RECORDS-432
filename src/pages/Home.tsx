@@ -76,7 +76,7 @@ export default function Home() {
               data-reveal
               style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
             >
-              <Logo variant="mark" className="mx-auto h-[30rem] xl:h-[34rem]" />
+              <Logo className="mx-auto w-full max-w-lg" />
               <div
                 className="pointer-events-none absolute -inset-16 -z-10 rounded-full blur-3xl"
                 style={{
@@ -143,10 +143,10 @@ export default function Home() {
             {/* Empty catalogue slot rendered as a real object, not a
                 shrug — cobalt plate with the mark ghosted into it. */}
             <div className="lg:col-span-5">
-              <div className="relative grid aspect-square place-items-center overflow-hidden rounded-sm border border-cobalt-600/25 bg-gradient-to-br from-cobalt-500/80 to-cobalt-700/80 shadow-2xl shadow-cobalt-600/25 backdrop-blur-2xl">
-                <Logo variant="mark" className="h-2/3 text-white/22" />
-                <span className="eyebrow absolute bottom-5 left-5 text-white/80">LR001</span>
-                <span className="eyebrow absolute right-5 top-5 text-white/60">Forthcoming</span>
+              <div className="panel-cobalt relative grid aspect-square place-items-center overflow-hidden">
+                <Logo className="w-2/3 text-cobalt-700/35" />
+                <span className="eyebrow absolute bottom-5 left-5 text-ink">LR001</span>
+                <span className="eyebrow absolute right-5 top-5 text-ink-soft">Forthcoming</span>
               </div>
             </div>
           </div>
@@ -268,8 +268,7 @@ export default function Home() {
           data-reveal
         >
           <Logo
-            variant="mark"
-            className="pointer-events-none absolute -right-10 -top-16 h-[24rem] text-white/8"
+            className="pointer-events-none absolute -right-16 -top-10 w-[26rem] text-white/10"
           />
 
           <div className="relative max-w-2xl">

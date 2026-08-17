@@ -1,36 +1,33 @@
 import { LABEL_NAME } from '../../data/site'
+import { asset } from '../../lib/assets'
 
 /* ------------------------------------------------------------------ *
  *  Logo
  *
  *  The source artwork is a black-on-white raster with no alpha, so it is
- *  used as a CSS mask instead of an <img>. That means the mark takes
- *  `currentColor` — cobalt in the nav, ink on paper, white when it sits
- *  on a cobalt field — from a single asset.
+ *  used as a CSS mask rather than an <img>. That means the mark takes
+ *  `currentColor` — cobalt in the nav, ink on paper, white on a cobalt
+ *  field — from one file.
  *
- *  variant "lockup" → 432 / LOVE / RECORDS, horizontal  (1245 × 739)
- *  variant "mark"   → the original vertical stack        (739 × 1245)
+ *  There is only one orientation: upright. The original scan is portrait
+ *  with the wordmark running bottom-to-top, so using it unrotated
+ *  rendered the logo on its side; the asset here is the rotated,
+ *  readable lockup — 432 stacked at the left, LOVE, then RECORDS.
+ *
+ *  It is a wide lockup, so size it by WIDTH (w-2/3, w-64) rather than
+ *  height, especially inside square containers.
  * ------------------------------------------------------------------ */
 
-// Vite rewrites absolute asset URLs in index.html but not in JS, so the
-// base has to be applied by hand or the mark 404s on a subpath deploy.
-const BASE = import.meta.env.BASE_URL
-
-const SOURCES = {
-  lockup: { src: `${BASE}logo-lockup.png`, ratio: 1245 / 739 },
-  mark: { src: `${BASE}logo-mask.png`, ratio: 739 / 1245 },
-} as const
+const SRC = 'logo-lockup.png'
+const RATIO = 1245 / 739
 
 interface LogoProps {
-  variant?: keyof typeof SOURCES
-  /** Rendered height; width follows the aspect ratio. */
+  /** Sizing classes. Prefer a width — this lockup is wider than it is tall. */
   className?: string
   title?: string
 }
 
-export default function Logo({ variant = 'lockup', className = 'h-9', title }: LogoProps) {
-  const { src, ratio } = SOURCES[variant]
-
+export default function Logo({ className = 'h-9', title }: LogoProps) {
   return (
     <span
       role="img"
@@ -38,8 +35,8 @@ export default function Logo({ variant = 'lockup', className = 'h-9', title }: L
       className={`logo-mask block ${className}`}
       style={
         {
-          '--logo-src': `url(${src})`,
-          aspectRatio: `${ratio}`,
+          '--logo-src': `url(${asset(SRC)})`,
+          aspectRatio: `${RATIO}`,
         } as React.CSSProperties
       }
     />

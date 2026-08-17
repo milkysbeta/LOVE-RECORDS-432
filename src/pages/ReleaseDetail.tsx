@@ -65,8 +65,8 @@ export default function ReleaseDetail() {
                   className="size-full object-cover"
                 />
               ) : (
-                <div className="grid size-full place-items-center bg-gradient-to-br from-cobalt-500 to-cobalt-700">
-                  <Logo variant="mark" className="h-2/3 text-white/25" />
+                <div className="panel-cobalt grid size-full place-items-center">
+                  <Logo className="w-2/3 text-cobalt-700/40" />
                 </div>
               )}
             </div>

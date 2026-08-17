@@ -29,7 +29,7 @@ export default function ReleaseCard({ release, index = 0 }: Props) {
     <article data-reveal style={{ '--reveal-delay': `${index * 65}ms` } as React.CSSProperties}>
       <Link
         to={`/release/${release.slug}`}
-        className="panel-soft group block p-3 transition duration-500 hover:border-cobalt-600/40 hover:shadow-xl hover:shadow-cobalt-600/12"
+        className="panel group block p-4 transition duration-500 hover:border-cobalt-600/40 hover:shadow-xl hover:shadow-cobalt-600/12"
       >
         <div className="relative aspect-square overflow-hidden rounded-sm bg-cobalt-50 shadow-sm ring-1 ring-cobalt-600/8 transition duration-500">
           {release.artwork ? (

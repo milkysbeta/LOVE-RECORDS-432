@@ -1,4 +1,5 @@
 import PageHeader from '../components/layout/PageHeader'
+import { SectionHead } from '../components/ui/Section'
 import Logo from '../components/ui/Logo'
 import Button from '../components/ui/Button'
 import { ALL_RELEASES } from '../data/catalogue'
@@ -55,9 +56,9 @@ export default function About() {
 
         <div ref={markLayer} className="lg:col-span-5">
           <div className="lg:sticky lg:top-32" data-reveal>
-            <div className="relative grid aspect-square place-items-center overflow-hidden rounded-sm border border-cobalt-600/25 bg-gradient-to-br from-cobalt-500/80 to-cobalt-800/80 shadow-2xl shadow-cobalt-600/25 backdrop-blur-2xl">
-              <Logo variant="mark" className="h-3/5 text-white/90" />
-              <span className="eyebrow absolute bottom-6 left-6 text-white/70">
+            <div className="panel-cobalt relative grid aspect-square place-items-center overflow-hidden">
+              <Logo className="w-3/5 text-cobalt-700" />
+              <span className="eyebrow absolute bottom-6 left-6 text-ink">
                 A = {TUNING.hz} Hz
               </span>
             </div>
@@ -89,9 +90,9 @@ export default function About() {
 
       {/* ---- how we work ---- */}
       <section className="shell mt-32">
-        <div className="panel panel-pad" data-reveal>
-          <h2 className="display-md max-w-2xl text-balance">How the label works</h2>
-        </div>
+        {/* Uses the same SectionHead as every other section heading on the
+            site, rather than a bare h2 in a panel of its own. */}
+        <SectionHead eyebrow="How we work" title="How the label works" />
 
         <div className="mt-6 grid gap-6 md:grid-cols-3">
           {[
@@ -110,7 +111,7 @@ export default function About() {
           ].map(([title, body], i) => (
             <div
               key={title}
-              className="panel-soft p-7"
+              className="panel panel-pad"
               data-reveal
               style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}
             >

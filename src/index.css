@@ -16,7 +16,7 @@
   /* Thin panels let more of the field through, so the metadata grey has
      to be darker than it would need to be on flat paper. Measured to
      clear AA against the densest part of the Chladni figure. */
-  --color-ink-faint: #4b5471;
+  --color-ink-faint: #414963;
 
   /* — light cobalt ramp — */
   --color-cobalt-50: #eef3ff;
@@ -183,7 +183,7 @@
  *  Change these four values and every surface on the site moves together.
  * ------------------------------------------------------------------ */
 @theme {
-  --surface-fill: 34%;
+  --surface-fill: 27%;
   --surface-blur: 44px;
   --surface-saturate: 1.7;
   --surface-edge: 18%;
@@ -200,13 +200,20 @@
     0 22px 60px -26px rgba(47, 95, 224, 0.22);
 }
 
-/** Same material as `panel`, tighter corner, no lift. For cards. */
-@utility panel-soft {
-  background-color: color-mix(in oklab, #fff var(--surface-fill), transparent);
+/**
+ * The same glass, tinted cobalt instead of white.
+ *
+ * Note this changes what the text on these blocks has to be. At 27% the
+ * tint sits light — around #c4d2f7 over paper — so the white type these
+ * carried before is unreadable. They take ink-coloured text now, the
+ * same as every other panel.
+ */
+@utility panel-cobalt {
+  background-color: color-mix(in oklab, var(--color-cobalt-500) var(--surface-fill), transparent);
   -webkit-backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
   backdrop-filter: blur(var(--surface-blur)) saturate(var(--surface-saturate));
-  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) var(--surface-edge), transparent);
-  border-radius: 0.25rem;
+  border: 1px solid color-mix(in oklab, var(--color-cobalt-600) 38%, transparent);
+  border-radius: 0.375rem;
 }
 
 /** The same material with no border or radius, for full-bleed chrome:
@@ -312,15 +319,20 @@
  *  Unlayered so it beats Tailwind's utilities layer.
  * ------------------------------------------------------------------ */
 .panel .panel,
-.panel .panel-soft,
 .panel .glass,
-.panel-soft .panel-soft,
-.panel-soft .glass,
+.panel .panel-cobalt,
 .surface .glass,
 .glass .glass {
   background-color: transparent;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
+}
+
+/* A cobalt block nested in a panel still needs its tint — it is the
+   colour that distinguishes it — so it keeps the fill and only drops the
+   duplicate blur pass. */
+.panel .panel-cobalt {
+  background-color: color-mix(in oklab, var(--color-cobalt-500) var(--surface-fill), transparent);
 }
 
 @media (max-width: 48rem) {

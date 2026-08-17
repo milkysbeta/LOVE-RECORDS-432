@@ -65,7 +65,7 @@ export default function ArtistImage({
       <div
         className={`grid size-full place-items-center bg-gradient-to-br from-cobalt-100 to-cobalt-200 ${className}`}
       >
-        <Logo variant="mark" className="h-3/5 text-cobalt-600/35" title={alt} />
+        <Logo className="w-3/5 text-cobalt-600/35" title={alt} />
       </div>
     )
   }
