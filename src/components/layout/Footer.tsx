@@ -1,7 +1,17 @@
 import { Link } from 'react-router-dom'
 import Logo from '../ui/Logo'
 import { ExternalIcon } from '../ui/Icon'
-import { EMAIL, HAS_EMAIL, LABEL_NAME, LOCATION, NAV, SOCIALS, TUNING } from '../../data/site'
+import { asset } from '../../lib/assets'
+import {
+  DESIGNER,
+  EMAIL,
+  HAS_EMAIL,
+  LABEL_NAME,
+  LOCATION,
+  NAV,
+  SOCIALS,
+  TUNING,
+} from '../../data/site'
 
 export default function Footer() {
   return (
@@ -82,10 +92,45 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="rule mt-14 flex flex-col gap-3 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="rule mt-14 flex flex-col gap-5 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="eyebrow text-ink-faint">
             © {new Date().getFullYear()} {LABEL_NAME}
           </p>
+
+          {/* Designer credit. The carton is cobalt to sit in the palette and
+              returns to its own red on hover — two stacked images rather
+              than a CSS filter, because the white lettering must survive
+              the recolour and a hue-rotate would only approximate it. */}
+          <a
+            href={DESIGNER.url}
+            target="_blank"
+            rel="noreferrer noopener"
+            title={DESIGNER.role}
+            className="group inline-flex items-center gap-2.5 text-ink-faint transition-colors duration-300 hover:text-[#e80a0a]"
+          >
+            <span
+              className="relative block h-9 shrink-0"
+              style={{ aspectRatio: '300 / 470' }}
+              aria-hidden="true"
+            >
+              <img
+                src={asset('milky/milky-cobalt.png')}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 size-full object-contain transition-opacity duration-300 group-hover:opacity-0"
+              />
+              <img
+                src={asset('milky/milky-red.png')}
+                alt=""
+                loading="lazy"
+                className="absolute inset-0 size-full object-contain opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              />
+            </span>
+            <span className="eyebrow">
+              Designed by {DESIGNER.name} · All rights reserved {new Date().getFullYear()}
+            </span>
+          </a>
+
           <p className="eyebrow text-cobalt-600">A = {TUNING.hz} Hz</p>
         </div>
       </div>

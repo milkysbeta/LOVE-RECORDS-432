@@ -37,6 +37,20 @@ export const SOCIALS: { label: string; url: string }[] = [
   // TODO: { label: 'SoundCloud', url: '' },
 ]
 
+/**
+ * Footer credit.
+ *
+ * TODO: `url` points at sweetfix.co.nz for now — repoint it at the
+ * dedicated web development / graphic / interactive design site when that
+ * one exists.
+ */
+export const DESIGNER = {
+  name: 'Milky',
+  url: 'https://sweetfix.co.nz',
+  /** Used as the link title, so the credit says what it is on hover. */
+  role: 'Web development, graphic and interactive design',
+}
+
 export const NAV = [
   { label: 'Catalogue', to: '/catalogue' },
   { label: 'Artists', to: '/artists' },
