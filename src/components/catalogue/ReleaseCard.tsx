@@ -31,7 +31,11 @@ export default function ReleaseCard({ release, index = 0 }: Props) {
         to={`/release/${release.slug}`}
         className="panel group block p-4 transition duration-500 hover:border-cobalt-600/40 hover:shadow-xl hover:shadow-cobalt-600/12"
       >
-        <div className="relative aspect-square overflow-hidden rounded-sm bg-cobalt-50 shadow-sm ring-1 ring-cobalt-600/8 transition duration-500">
+        {/* No fill, ring or shadow of its own: the artwork is opaque and
+            covers this box entirely, so any backing only ever showed as a
+            solid rectangle inside a glass card — which is what made these
+            read as a different material from every other panel. */}
+        <div className="relative aspect-square overflow-hidden rounded-sm transition duration-500">
           {release.artwork ? (
             <img
               src={release.artwork}

@@ -66,7 +66,7 @@ export default function ReleaseDetail() {
                 />
               ) : (
                 <div className="panel-cobalt grid size-full place-items-center">
-                  <Logo className="w-2/3 text-cobalt-700/40" />
+                  <Logo className="h-2/3 text-cobalt-700/40" />
                 </div>
               )}
             </div>

@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="shell py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
-            <Logo className="h-14 text-ink" />
+            <Logo className="h-24 text-ink" />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-ink-soft">
               {LABEL_NAME} is an independent electronic label based in {LOCATION}. Every record we
               put out is tuned to A={TUNING.hz}Hz.

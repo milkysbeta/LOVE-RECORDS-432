@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <section className="shell grid min-h-[70vh] place-items-center pt-32 text-center">
       <div>
-        <Logo className="mx-auto w-72 text-cobalt-200" />
+        <Logo className="mx-auto h-48 text-cobalt-200" />
         <p className="eyebrow mt-10 text-cobalt-600">404</p>
         <h1 className="display-lg mt-5 text-balance">Nothing resonating here.</h1>
         <p className="mx-auto mt-5 max-w-md body-lg text-ink-soft">

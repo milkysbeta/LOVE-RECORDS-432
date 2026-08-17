@@ -76,7 +76,7 @@ export default function Home() {
               data-reveal
               style={{ '--reveal-delay': '240ms' } as React.CSSProperties}
             >
-              <Logo className="mx-auto w-full max-w-lg" />
+              <Logo className="mx-auto h-[30rem] xl:h-[34rem]" />
               <div
                 className="pointer-events-none absolute -inset-16 -z-10 rounded-full blur-3xl"
                 style={{
@@ -144,7 +144,7 @@ export default function Home() {
                 shrug — cobalt plate with the mark ghosted into it. */}
             <div className="lg:col-span-5">
               <div className="panel-cobalt relative grid aspect-square place-items-center overflow-hidden">
-                <Logo className="w-2/3 text-cobalt-700/35" />
+                <Logo className="h-2/3 text-cobalt-700/35" />
                 <span className="eyebrow absolute bottom-5 left-5 text-ink">LR001</span>
                 <span className="eyebrow absolute right-5 top-5 text-ink-soft">Forthcoming</span>
               </div>
@@ -268,7 +268,7 @@ export default function Home() {
           data-reveal
         >
           <Logo
-            className="pointer-events-none absolute -right-16 -top-10 w-[26rem] text-white/10"
+            className="pointer-events-none absolute -right-10 -top-16 h-[28rem] text-white/10"
           />
 
           <div className="relative max-w-2xl">

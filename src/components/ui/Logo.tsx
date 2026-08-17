@@ -9,20 +9,23 @@ import { asset } from '../../lib/assets'
  *  `currentColor` — cobalt in the nav, ink on paper, white on a cobalt
  *  field — from one file.
  *
- *  There is only one orientation: upright. The original scan is portrait
- *  with the wordmark running bottom-to-top, so using it unrotated
- *  rendered the logo on its side; the asset here is the rotated,
- *  readable lockup — 432 stacked at the left, LOVE, then RECORDS.
+ *  ORIENTATION — this is the artwork as supplied, unrotated.
  *
- *  It is a wide lockup, so size it by WIDTH (w-2/3, w-64) rather than
- *  height, especially inside square containers.
+ *  It is a portrait lockup by design: LOVE set as a vertical monogram
+ *  with the orant figure as the O, RECORDS running up the right edge,
+ *  and 432 horizontal along the bottom. That upright 432 is the tell —
+ *  it only reads correctly in portrait. An earlier version rotated the
+ *  file 90° to make a horizontal lockup, which laid the 432 on its side.
+ *  Do not rotate it.
+ *
+ *  It is taller than it is wide, so size it by HEIGHT (h-9, h-2/3).
  * ------------------------------------------------------------------ */
 
-const SRC = 'logo-lockup.png'
-const RATIO = 1245 / 739
+const SRC = 'logo-mask.png'
+const RATIO = 739 / 1245
 
 interface LogoProps {
-  /** Sizing classes. Prefer a width — this lockup is wider than it is tall. */
+  /** Sizing classes. Prefer a height — the lockup is taller than it is wide. */
   className?: string
   title?: string
 }
