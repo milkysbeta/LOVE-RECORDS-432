@@ -20,14 +20,22 @@ const BASE = process.env.BASE_PATH ?? '/love432records/'
  * .nojekyll stops Pages running the build through Jekyll, which would
  * otherwise strip files and folders beginning with an underscore.
  */
+/**
+ * Built output goes to /docs and is committed, because GitHub Pages can
+ * serve a branch's /docs folder directly. That keeps the site working
+ * without depending on the Pages "Source" setting being switched to
+ * GitHub Actions — the folder dropdown is enough.
+ */
+const OUT_DIR = 'docs'
+
 function githubPages(): Plugin {
   return {
     name: 'love432-github-pages',
     apply: 'build',
     closeBundle() {
-      const dist = resolve(import.meta.dirname, 'dist')
-      copyFileSync(resolve(dist, 'index.html'), resolve(dist, '404.html'))
-      writeFileSync(resolve(dist, '.nojekyll'), '')
+      const out = resolve(import.meta.dirname, OUT_DIR)
+      copyFileSync(resolve(out, 'index.html'), resolve(out, '404.html'))
+      writeFileSync(resolve(out, '.nojekyll'), '')
     },
   }
 }
@@ -39,6 +47,10 @@ export default defineConfig(({ command, isPreview }) => ({
   // to match the build, since it serves the built output.
   base: command === 'build' || isPreview ? BASE : '/',
   plugins: [react(), tailwindcss(), githubPages()],
+  build: {
+    outDir: OUT_DIR,
+    emptyOutDir: true,
+  },
   server: {
     port: 4320,
     open: false,
