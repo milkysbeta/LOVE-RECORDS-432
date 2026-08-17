@@ -28,24 +28,17 @@ export default function Layout() {
     window.scrollTo(0, 0)
   }, [pathname, lenisRef])
 
-  // The home page carries the field at full strength and interior routes
-  // pull it back so it never competes with the catalogue. /resonate is
-  // the instrument itself: full bleed, no vignette, audio driven hard.
-  const isVisualiser = pathname === '/resonate'
-  const intensity = isVisualiser ? 1 : pathname === '/' ? 1 : 0.5
-  const drive = isVisualiser ? 2.4 : 1
+  // Every route gets the same field: full strength, no vignette. Fading
+  // it back on interior pages made those pages look like a different
+  // site, and the panels already carry the contrast on their own.
+  // /resonate differs only in how hard incoming audio drives it.
+  const drive = pathname === '/resonate' ? 2.4 : 1
 
   return (
     <>
       <FieldBoundary>
         <Suspense fallback={null}>
-          <ChladniField
-            progressRef={progressRef}
-            intensity={intensity}
-            tiltRef={tiltRef}
-            drive={drive}
-            bare={isVisualiser}
-          />
+          <ChladniField progressRef={progressRef} tiltRef={tiltRef} drive={drive} />
         </Suspense>
       </FieldBoundary>
 

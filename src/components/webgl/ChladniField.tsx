@@ -383,13 +383,9 @@ function Field({ progressRef, tiltRef, reducedMotion, drive, baseOpacity }: Fiel
 
 interface ChladniFieldProps {
   progressRef: React.RefObject<number>
-  /** Dial the whole field back on content-heavy routes. */
-  intensity?: number
   tiltRef?: React.RefObject<TiltReading> | null
-  /** Amplify audio response. The fullscreen visualiser turns this up. */
+  /** Amplify audio response. The visualiser route turns this up. */
   drive?: number
-  /** Skip the readability vignette — the visualiser wants the full field. */
-  bare?: boolean
 }
 
 /**
@@ -414,10 +410,8 @@ function cannotRender() {
 
 export default function ChladniField({
   progressRef,
-  intensity = 1,
   tiltRef = null,
   drive = 1,
-  bare = false,
 }: ChladniFieldProps) {
   const [unsupported] = useState(cannotRender)
 
@@ -440,7 +434,7 @@ export default function ChladniField({
     <div
       className="pointer-events-none fixed inset-0 -z-10"
       style={{
-        opacity: ready ? intensity : 0,
+        opacity: ready ? 1 : 0,
         transition: 'opacity 1.4s var(--ease-out-expo)',
       }}
       aria-hidden="true"
@@ -456,23 +450,17 @@ export default function ChladniField({
           tiltRef={tiltRef}
           reducedMotion={reducedMotion}
           drive={drive}
-          baseOpacity={bare ? 0.95 : 0.8}
+          baseOpacity={0.95}
         />
       </Canvas>
 
-      {/* Radial vignette: keeps the centre of the page legible by fading
-          the field out behind body copy. Deliberately strong — the
-          pattern is at its best framing the edges, and unreadable text
-          is never worth a prettier background. The visualiser opts out. */}
-      {!bare && (
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse 78% 68% at 50% 42%, rgba(251,252,255,0.80) 0%, rgba(251,252,255,0.58) 40%, rgba(251,252,255,0.25) 66%, rgba(251,252,255,0) 88%)',
-          }}
-        />
-      )}
+      {/*
+        No vignette. There used to be a white radial gradient fading the
+        field out behind body copy, on every route except the visualiser.
+        It was doing the job the panels now do, and it made those pages
+        read as a washed-out version of the same site. Contrast is held
+        by the panel fill and blur, which is measured — see index.css.
+      */}
     </div>
   )
 }
