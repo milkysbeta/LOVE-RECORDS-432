@@ -9,7 +9,7 @@ import tailwindcss from '@tailwindcss/vite'
  * have to be prefixed. Override with BASE_PATH=/ when deploying to a
  * root domain (a custom domain, Netlify, Vercel…).
  */
-const BASE = process.env.BASE_PATH ?? '/love432records/'
+const BASE = process.env.BASE_PATH ?? '/LOVE-RECORDS-432/'
 
 /**
  * GitHub Pages has no SPA rewrite rule, so a hard load of a deep link
