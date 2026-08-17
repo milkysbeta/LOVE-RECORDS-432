@@ -183,7 +183,7 @@
  *  Change these four values and every surface on the site moves together.
  * ------------------------------------------------------------------ */
 @theme {
-  --surface-fill: 27%;
+  --surface-fill: 20%;
   --surface-blur: 44px;
   --surface-saturate: 1.7;
   --surface-edge: 18%;
