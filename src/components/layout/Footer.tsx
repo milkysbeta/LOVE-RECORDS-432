@@ -106,10 +106,11 @@ export default function Footer() {
             target="_blank"
             rel="noreferrer noopener"
             title={DESIGNER.role}
-            className="group inline-flex items-center gap-2.5 text-ink-faint transition-colors duration-300 hover:text-[#e80a0a]"
+            className="group inline-flex items-center gap-2.5 text-ink-faint transition-colors duration-300 hover:text-ink"
           >
             <span
-              className="relative block h-9 shrink-0"
+              /* 40% up from the original h-9 / 36px. */
+              className="relative block h-[3.15rem] shrink-0"
               style={{ aspectRatio: '300 / 470' }}
               aria-hidden="true"
             >
