@@ -37,7 +37,7 @@ export default function Catalogue() {
       <section className="shell mt-14">
         {/* Filters share one panel so the controls read as a single object
             rather than loose chips floating on the field. */}
-        <div className="panel px-6 py-6 sm:px-8" data-reveal>
+        <div className="panel panel-pad" data-reveal>
         <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
           {SCOPES.map((s) => (
             <button
@@ -97,7 +97,7 @@ export default function Catalogue() {
           </div>
         ) : (
           <div
-            className="glass mt-14 border-dashed px-8 py-20 text-center"
+            className="glass panel-pad mt-14 border-dashed text-center"
             data-reveal
           >
             <p className="display-sm text-ink">

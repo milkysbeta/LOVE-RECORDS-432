@@ -89,7 +89,7 @@ export default function About() {
 
       {/* ---- how we work ---- */}
       <section className="shell mt-32">
-        <div className="panel px-6 py-7 sm:px-9" data-reveal>
+        <div className="panel panel-pad" data-reveal>
           <h2 className="display-md max-w-2xl text-balance">How the label works</h2>
         </div>
 
@@ -124,7 +124,7 @@ export default function About() {
 
       <section className="shell mt-32">
         <div
-          className="panel px-8 py-14 text-center sm:px-14"
+          className="panel panel-pad text-center"
           data-reveal
         >
           <h2 className="display-md text-balance">Curious rather than convinced is fine.</h2>

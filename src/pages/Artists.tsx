@@ -30,7 +30,7 @@ export default function Artists() {
                 data-reveal
                 style={{ '--reveal-delay': `${i * 90}ms` } as React.CSSProperties}
               >
-                <div className="panel h-full p-6 transition duration-500 hover:border-cobalt-600/40 hover:shadow-2xl hover:shadow-cobalt-600/15 sm:p-8">
+                <div className="panel panel-pad h-full transition duration-500 hover:border-cobalt-600/40 hover:shadow-2xl hover:shadow-cobalt-600/15">
                   <div className="aspect-4/3 overflow-hidden rounded-sm bg-cobalt-50 ring-1 ring-cobalt-600/10">
                     <ArtistImage
                       src={artist.image}
@@ -64,7 +64,7 @@ export default function Artists() {
         </div>
 
         {aliases.length > 0 && (
-          <div className="panel mt-20 px-6 py-7 sm:px-9" data-reveal>
+          <div className="panel panel-pad mt-20" data-reveal>
             <h2 className="eyebrow text-ink-faint">Also records as</h2>
             <div className="mt-6 flex flex-wrap gap-3">
               {aliases.map((a) => (
@@ -83,7 +83,7 @@ export default function Artists() {
           </div>
         )}
 
-        <div className="glass mt-24 border-dashed px-8 py-16 text-center" data-reveal>
+        <div className="glass panel-pad mt-24 border-dashed text-center" data-reveal>
           <h2 className="display-sm">The roster has room.</h2>
           <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
             If you make electronic music and you are curious about 432, that is enough of a reason

@@ -194,7 +194,7 @@ export default function Home() {
 
           {/* 440 vs 432, stated as a spec rather than argued. */}
           <div ref={thesisMark} className="lg:col-span-6">
-            <div className="panel p-8 sm:p-10" data-reveal>
+            <div className="panel panel-pad" data-reveal>
               <div className="grid grid-cols-2 gap-8">
                 <div>
                   <p className="eyebrow text-ink-faint">Concert standard</p>
@@ -232,7 +232,7 @@ export default function Home() {
         <SectionHead eyebrow="Roster" title="Who is on the label" link={{ to: '/artists', label: 'All artists' }} />
 
         <Link to={`/artists/${phully.slug}`} className="group mt-12 block" data-reveal>
-          <div className="panel grid items-center gap-10 p-8 transition duration-500 hover:border-cobalt-600/35 hover:shadow-2xl hover:shadow-cobalt-600/15 sm:p-10 lg:grid-cols-12">
+          <div className="panel panel-pad grid items-center gap-10 transition duration-500 hover:border-cobalt-600/35 hover:shadow-2xl hover:shadow-cobalt-600/15 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <div className="aspect-square overflow-hidden rounded-sm bg-cobalt-50 ring-1 ring-cobalt-600/10">
                 <ArtistImage

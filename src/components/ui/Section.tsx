@@ -13,7 +13,7 @@ interface SectionHeadProps {
 export function SectionHead({ eyebrow, title, link, className = '' }: SectionHeadProps) {
   return (
     <div
-      className={`panel flex flex-wrap items-end justify-between gap-6 px-6 py-7 sm:px-9 ${className}`}
+      className={`panel panel-pad flex flex-wrap items-end justify-between gap-6 ${className}`}
       data-reveal
     >
       <div>

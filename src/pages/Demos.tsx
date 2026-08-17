@@ -75,7 +75,7 @@ export default function Demos() {
 
         <div className="lg:col-span-7">
           <div
-            className="panel p-7 sm:p-10"
+            className="panel panel-pad"
             data-reveal
           >
             <MessageForm
