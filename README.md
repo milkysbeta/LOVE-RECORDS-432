@@ -95,6 +95,37 @@ Phully (55677) and DJ Phully (59922) on 2026-08-17.
 
 ---
 
+## Going live on love432.com
+
+The build serves from the GitHub Pages project subpath by default. To
+serve from the custom domain instead, build with `SITE_DOMAIN` set:
+
+```bash
+SITE_DOMAIN=love432.com npm run build
+```
+
+That does two things at once, and they must happen together:
+
+- drops the base path from `/LOVE-RECORDS-432/` to `/`, because a custom
+  domain serves from the root while a project site does not
+- writes `docs/CNAME`, which is what actually attaches the domain
+
+**The CNAME has to come from the build, not from GitHub.** Setting a
+custom domain in the Pages UI makes GitHub commit that file into the
+publishing source — here, `docs/`. This build empties `docs/` on every
+run, so GitHub's copy would be deleted by the next deploy and the domain
+would silently detach. Emitting it from the build is what makes it stick.
+
+DNS at the registrar needs four A records on the apex pointing at
+`185.199.108.153`, `185.199.109.153`, `185.199.110.153` and
+`185.199.111.153`, plus a `www` CNAME to `milkysbeta.github.io`.
+
+Once the domain is live, `milkysbeta.github.io/LOVE-RECORDS-432/` stops
+working and redirects to it. HTTPS is issued by GitHub a few minutes
+after DNS resolves — worth waiting for, because the microphone and
+device-tilt features on `/resonate` are secure-context only and will not
+run over plain http.
+
 ## How it's built
 
 Vite + React + TypeScript, Tailwind v4, three.js via react-three-fiber, Lenis for
