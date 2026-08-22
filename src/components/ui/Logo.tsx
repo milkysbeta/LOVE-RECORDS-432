@@ -21,8 +21,8 @@ import { asset } from '../../lib/assets'
  *  It is taller than it is wide, so size it by HEIGHT (h-9, h-2/3).
  * ------------------------------------------------------------------ */
 
-const SRC = 'logo-mask.png'
-const RATIO = 739 / 1245
+const SRC = 'logo-432.png'
+const RATIO = 1506 / 2527
 
 interface LogoProps {
   /** Sizing classes. Prefer a height — the lockup is taller than it is wide. */
