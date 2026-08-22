@@ -70,7 +70,7 @@ export default function About() {
       <section className="shell mt-32">
         <div className="panel panel-pad grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            ['Based in', 'Auckland', 'Aotearoa New Zealand'],
+            ['Based in', 'Auckland', 'New Zealand'],
             ['Tuning', `${TUNING.hz} Hz`, `${TUNING.standard - TUNING.hz}Hz below concert pitch`],
             ['Founded by', 'Paul Sweetman', 'Releasing as Phully'],
             ['Archive from', earliest, 'Breaks, then everything after'],

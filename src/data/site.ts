@@ -9,7 +9,7 @@
 
 export const LABEL_NAME = 'Love 432 Records'
 export const LABEL_SHORT = 'Love 432'
-export const LOCATION = 'Auckland, Aotearoa New Zealand'
+export const LOCATION = 'Auckland, New Zealand'
 export const FOUNDED = 2026 // TODO: confirm founding year
 
 /**

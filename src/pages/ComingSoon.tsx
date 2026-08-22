@@ -43,12 +43,10 @@ export default function ComingSoon() {
                 {TUNING.hz}Hz.
               </p>
 
-              <div className="rule mt-10 flex items-center justify-center gap-3 pt-6">
-                <span className="h-px w-8 bg-cobalt-600/30" />
+              <div className="rule mt-10 pt-6">
                 <span className="eyebrow text-ink-faint">
-                  Chladni figure · A={TUNING.hz}Hz · scroll to resonate
+                  A={TUNING.hz}Hz · scroll to resonate
                 </span>
-                <span className="h-px w-8 bg-cobalt-600/30" />
               </div>
             </div>
           </div>

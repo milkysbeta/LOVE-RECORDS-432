@@ -206,7 +206,7 @@ export const BACK_CATALOGUE: Release[] = [
     releaseDate: '2022-06-17',
     artwork: bpArt('93145952-fca5-448b-952f-f6d5ecc52214'),
     genre: 'Tech House',
-    note: 'Thirteen-track Aotearoa compilation — Phully alongside Mark deClive-Lowe, Baitercell, Signer, Kingsland Housing Project and a Greg Churchill remix.',
+    note: 'Thirteen-track New Zealand compilation — Phully alongside Mark deClive-Lowe, Baitercell, Signer, Kingsland Housing Project and a Greg Churchill remix.',
     format: ['Digital'],
     links: { beatport: bpRelease('algorhythm-2', 3773591) },
     isLove432: false,
@@ -351,7 +351,7 @@ export const ARTISTS: Artist[] = [
     realName: 'Paul Sweetman',
     aliases: ['DJ Phully'],
     role: 'Producer, DJ — founder',
-    location: 'Auckland, Aotearoa New Zealand',
+    location: 'Auckland, New Zealand',
     onRoster: true,
     // Local file in /public. The Beatport URL that was here previously
     // was their generic placeholder avatar, not a photograph.
@@ -370,7 +370,7 @@ export const ARTISTS: Artist[] = [
     name: 'DJ Phully',
     realName: 'Paul Sweetman',
     role: 'Remix and DJ alias of Phully',
-    location: 'Auckland, Aotearoa New Zealand',
+    location: 'Auckland, New Zealand',
     onRoster: false,
     bio: [
       'The DJ Phully name carries the earliest records and the remix work — En:Vision in 2005, through to House of Downtown and Matt Lightbourn reworks.',
